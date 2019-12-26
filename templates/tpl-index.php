@@ -7,13 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles/mainStyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/slider.css">
 
-    <title>eShop</title>
+    <title><?= $document ?></title>
 </head>
 
 <body>
@@ -36,6 +35,8 @@
                         </a> </li>
                 </ul>
             </div>
+
+
 
             <div class="header__linksBand yellowStyled">
 
@@ -63,7 +64,7 @@
             </div>
 
 
-            <slider></slider>
+
 
         </div>
         <div class="main">
@@ -142,10 +143,7 @@
                 </article>
 
             </div>
-            <div class="footer__copyright">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse atque magnam ducimus unde molestiae
-                quidem ipsum omnis aliquam consequatur inventore.
-            </div>
+
         </div>
 
         <cart :isVisibleCart="isVisibleCart" ref="cart"> </cart>

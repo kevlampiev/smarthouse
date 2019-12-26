@@ -104,4 +104,4 @@ let app = new Vue({
     }
 })
 
-export default app
+// export default app
