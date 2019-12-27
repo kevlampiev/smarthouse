@@ -1,3 +1,7 @@
+<?php 
+$document="Hello";
+$hello="Привет из Мордыхая";
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,7 +74,7 @@
         <div class="main">
             <h2 class="grayTitle"> featured </h2>
 
-            <component>header</component>
+            <h1> <?= $hello ?> </h1>
 
             <goods-list ref="catalog" :isVisibleCart="isVisibleCart">
 

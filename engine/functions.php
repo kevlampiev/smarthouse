@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 require("../settings/common.php");
 
 function tplProcede($data, $template)
@@ -6,9 +9,14 @@ function tplProcede($data, $template)
     $pathToTmpl = "../templates/$template.php";
 
     ob_start();
-    // echo "<!-- PHP -->";
-    extract($data);
-    // echo "<!-- html and CSS -->";
+
+    echo ("<?php \n");
+    foreach ($data as $key => $value) {
+        $newVal = (gettype($value) == "string") ? "\"$value\"" : $value;
+
+        echo "\$$key=$newVal;\n";
+    }
+    echo (" ?>\n");
 
     if (file_exists($pathToTmpl)) {
         $buf = file_get_contents($pathToTmpl);
@@ -25,13 +33,27 @@ function tplProcede($data, $template)
 
         // $str = $buf;
 
-        $str = str_replace("<component>", "", $buf);
-        $str = str_replace("</component>", "", $str);
-        echo $str;
+        $buf = str_replace("<component>", "", $buf);
+        $buf = str_replace("</component>", "", $buf);
+        echo $buf;
     } else {
         echo "template $pathToTmpl does't exist...";
     }
 
+    $str = ob_get_contents();
     ob_end_clean();
+    $fp = fopen('../settings/result.txt', 'w');
+    $test = fwrite($fp, $str);
+    fclose($fp);
     return $str;
+}
+
+function cheatRenderer($data, $template)
+{
+    ob_start();
+    extract($data);
+
+    $pathToTmpl = "../templates/$template.php";
+    require($pathToTmpl);
+    return ob_get_clean();
 }

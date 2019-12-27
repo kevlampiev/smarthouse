@@ -70,7 +70,7 @@
         <div class="main">
             <h2 class="grayTitle"> featured </h2>
 
-            <component>header</component>
+            <?php require("../templates/components/header.php"); ?>
 
             <goods-list ref="catalog" :isVisibleCart="isVisibleCart">
 
