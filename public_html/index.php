@@ -1,9 +1,11 @@
 <?php
 require("../settings/common.php");
 require("../engine/functions.php");
+require("../engine/index.data.php");
 
-$data = array("document" => "Hello", "hello" => "Привет из Мордыхая");
+//$data = compact($document, $sliderInfo); //Не работает
+
+$data = ['document' => $document, 'sliderInfo' => $sliderInfo, 'hotOffer' => $hotOffer];
+
 //echo tplProcede($data, "tpl-index"); //Вообще не работает 
-//echo cheatRenderer($data, "tpc-index"); //Работает, но непонятно для чего
-require("../engine/commondata.php");
-require("../templates/tpc-index.php");
+echo cheatRenderer($data, "index.tpl"); //Работает, но непонятно для чего
