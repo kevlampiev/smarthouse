@@ -53,7 +53,7 @@
 
             <div class="header__linksBand grayStyled">
 
-                <p class="header__info">Welcome visitor you can login or create an account.</p>
+                <p class="header__info">Welcome visitor you can login or <a href="signUp.php">create an account</a>.</p>
                 <div class="header__socialIconsContainer">
                     <a href="#" class="header__socialIcon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                     <a href="#" class="header__socialIcon"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
