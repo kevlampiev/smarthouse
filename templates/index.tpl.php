@@ -4,7 +4,9 @@ require("../templates/components/slider.cmp.php") ?>
 
 <div class="main">
 
-    <?php require("../templates/components/hotoffer.cmp.php"); ?>
+    <?php require("../templates/components/hotoffer.cmp.php");
+    require("../templates/components/mostPopular.cmp.php");
+    ?>
 
 
 </div>

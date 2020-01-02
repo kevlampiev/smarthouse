@@ -1,6 +1,5 @@
 <div class="slider centered">
 
-
     <div v-for="slide of slides" :slide="slide" :key="slide.imgFile">
         <div v-bind:class="slide.currentClass">
             <img v-bind:src="slide.imgFile" alt="slide.fileComment" class="grayImg">
@@ -13,6 +12,7 @@
     <div class="slider__comment cyanStyled">
         {{slides[currentIdx].slideText}}
     </div>
+
 </div>
 
 <link rel="stylesheet" href="styles/slider.css">
@@ -21,9 +21,7 @@
     let slider = new Vue({
         el: ".slider",
         data: {
-            slides: [
-                <?php echo $sliderInfo; ?>
-            ],
+            slides: [],
             readyToSlide: true,
             currentIdx: 0,
             intervalID: null
@@ -31,6 +29,12 @@
         methods: {
 
             getData() {
+
+                this.slides = JSON.parse('<?= json_encode($sliderInfo) ?>');
+
+                this.slides.forEach(el => {
+                    el.imgFile = `img/forSlider/${el.imgFile}`;
+                })
                 //а можно сюда через fetch/axios
             },
 
@@ -74,7 +78,8 @@
         },
 
         beforeMount() {
-            //this.getData();
+
+            this.getData();
             this.slides[0].currentClass = 'slider-item';
             this.intervalID = setInterval(this.nextSlideRight, 10000);
             this.readyToSlide = true;

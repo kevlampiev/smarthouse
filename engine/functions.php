@@ -2,7 +2,7 @@
 
 use function PHPSTORM_META\type;
 
-require("../settings/common.php");
+require_once __DIR__ . "/../settings/common.php";
 
 function tplProcede($data, $template)
 {
@@ -48,12 +48,13 @@ function tplProcede($data, $template)
     return $str;
 }
 
-function cheatRenderer($data, $template)
+//Ти
+function render(string $template, array $data): string
 {
     ob_start();
     extract($data);
 
-    $pathToTmpl = "../templates/$template.php";
+    $pathToTmpl = __DIR__ . "/../templates/$template.php";
     require($pathToTmpl);
     return ob_get_clean();
 }

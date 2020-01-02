@@ -22,8 +22,9 @@
         <div class="header">
             <div class="header__linksBand orangeStyled">
                 <div class="header__logo">
-                    <img class="header__logoImage" src="./img/atom.png" alt="Логотип">
+                    <a href="/"><img class="header__logoImage" src="./img/atom.png" alt="Логотип"></a>
                     <p>Atomic</p>
+
                 </div>
                 <ul class="userMenu">
                     <li> <a class="userMenu__item" href="#">wish list</a></li>

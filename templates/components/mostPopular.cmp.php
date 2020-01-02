@@ -1,11 +1,10 @@
 <div class="goods-list">
-    <h2 class="grayTitle"> Hot offers </h2>
+    <h2 class="grayTitle"> Most popular goods </h2>
 
-    <? foreach ($hotOffer as $key => $good) : ?>
+    <? foreach ($mostPopular as $key => $good) : ?>
         <div class="goods-item">
-            <a href=<?= "good.php?id=" . $good['id']  ?>>
-                <img src=<?= "\"/img/goods/" . $good['img'] . "\""; ?>>
-            </a>
+
+            <img src=<?= "\"/img/goods/" . $good['img'] . "\""; ?>>
             <h3> <?= $good['name']; ?> </h3>
             <p> <?= $good['price'] . " " . $good['currency']; ?> </p>
             <button type="submit" class="buiItBtn orangeStyled">Buy it</button>

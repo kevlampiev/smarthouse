@@ -7,3 +7,4 @@ $document = "e-shop";
 // str_replace("/public_html", "/engine/", $root);
 
 $dbConnection = mysqli_connect("127.0.0.1", "user_anonimous", "", "smarthouse");
+global $dbConnection;
