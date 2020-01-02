@@ -44,11 +44,10 @@
             <div class="header__linksBand yellowStyled">
 
                 <ul class="userMenu">
-                    <li> <a class="userMenu__item" href="#">Kits</a></li>
-                    <li><a class="userMenu__item" href="#">controllers</a></li>
-                    <li><a class="userMenu__item" href="#">sensors </a></li>
-                    <li><a class="userMenu__item" href="#">software</a></li>
-
+                    <?php foreach ($categories as $key => $category) : ?>
+                        <li> <a class="userMenu__item" href=<?= "\"/goodsCategory.php?id=" . $category['id'] . "\"" ?>>
+                                <?= $category['name'] ?> </a></li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
 
