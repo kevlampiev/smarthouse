@@ -62,6 +62,21 @@
 
 </div>
 
+<div class="login-form cyanStyled hidden-form">
+    <div>
+        <label for="login">Login: </label>
+        <input type="text" name="login">
+        <label for="password">Password: </label>
+        <input type="password" name="password">
+        <div class="button_cont">
+            <button>Ok</button>
+
+            <button onclick="cancelLogin()  ">Cancel</button>
+        </div>
+
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
 <script src="js/catalog.js"></script>
 <script src="js/search.js"></script>
@@ -69,7 +84,7 @@
 <script src="js/error_notification.js"></script>
 <script src="js/buy_notification.js"></script>
 <!-- <script src="js/slider.js"></script> -->
-<script src="js/main.js"></script>
+
 
 
 </body>

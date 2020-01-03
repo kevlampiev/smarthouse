@@ -55,6 +55,17 @@ body {
 .header__socialIcon:hover {
   color: black;
 }
+.userNameDspl {
+  display: block;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin: 0;
+  color: #f7f7ba;
+  font-weight: 700;
+  height: 18px;
+  font-size: 18px;
+  padding: 22px 10px;
+}
 .userMenu {
   display: flex;
   justify-content: center;
@@ -301,9 +312,9 @@ h2 {
   flex-direction: column;
   justify-items: center;
   min-width: 500px;
-  top: 40vh;
-  left: 24vw;
-  width: 50vw;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
   padding: 10px;
   background-color: #fdafaf;
   color: maroon;
@@ -407,12 +418,59 @@ h2 {
     opacity: 1;
   }
 }
-a {
+.signUp-link {
   color: #777;
   font-weight: 800;
   font-style: italic;
   text-decoration: none;
 }
-a:hover {
-  color: orangered;
+.signUp-link:hover {
+  color: maroon;
+  font-weight: 900;
+}
+.login-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background-color: #fff;
+  opacity: 0.8;
+  box-shadow: 8px 8px 19px 5px rgba(0, 0, 0, 0.43);
+  padding: 10px;
+}
+.login-form div {
+  padding: 10px;
+  border: 1px solid #aaa;
+}
+.login-form label {
+  width: 250px;
+  text-align: left;
+  color: maroon;
+  font-size: 18px;
+}
+.login-form input {
+  width: 250px;
+  color: maroon;
+  margin-bottom: 10px;
+  min-height: 20px;
+  border-radius: 7px;
+  border: none;
+  background-color: #ddd;
+  padding: 5px 15px;
+}
+.login-form .button_cont {
+  display: flex;
+  justify-content: center;
+  width: 250px;
+  border: none;
+}
+.login-form button {
+  width: 100px;
+  color: #fff;
+  border: none;
+  background-color: orangered;
+  padding: 5px 15px;
+  margin: 0 15px;
+  border-radius: 10px;
 }

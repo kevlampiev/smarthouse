@@ -15,3 +15,12 @@ function render(string $template, array $data): string
     require($pathToTmpl);
     return ob_get_clean();
 }
+
+function gPostStr(string $param): string
+{
+    if (!isset($_POST[$param])) {
+        return "";
+    } else {
+        return strip_tags((string) $_POST[$param]);
+    }
+}

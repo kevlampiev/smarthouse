@@ -23,7 +23,10 @@ function currentCategory(): string
 {
     global $dbConnection;
     if (isset($_GET["id"])) {
-        $query = mysqli_query($dbConnection, "SELECT name from categories WHERE id=" . $_GET["id"]);
+        $sql = "SELECT name from good_categories WHERE id=" . $_GET["id"];
+
+        $query = mysqli_query($dbConnection, $sql);
+
         if (!$query) {
             $result = "undefined";
         } else {

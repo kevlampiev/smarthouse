@@ -1,10 +1,13 @@
 <?php
 
 $root = $_SERVER['DOCUMENT_ROOT'];
-$tpl_path = "/templates";
-$engine_path = "/engine/";
-$document = "e-shop";
+// $tpl_path = "/templates";
+// $engine_path = "/engine/";
+// $document = "e-shop";
 // str_replace("/public_html", "/engine/", $root);
 
 $dbConnection = mysqli_connect("127.0.0.1", "user_anonimous", "", "smarthouse");
-global $dbConnection;
+
+$solt = "783ac65";
+$pepper = "3b48qf";
+global $dbConnection, $solt, $pepper;

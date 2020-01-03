@@ -32,8 +32,8 @@
                 <label for="email">Email:</label>
                 <input type="text" name="email">
 
-                <label for="adress">Adress:</label>
-                <textarea name="adress" id="adress" cols="30" rows="10"></textarea>
+                <label for="address">Adress:</label>
+                <textarea name="address" id="address" cols="30" rows="10"></textarea>
 
                 <label for="comment">Comment:</label>
                 <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
@@ -46,76 +46,19 @@
             </form>
         </div>
     </div>
-    <style>
-        .container {
-            width: 1000px;
-            height: 100vh;
-            margin: 0 auto;
-            background-image: url("img/smartHouse.jpg");
-            background-size: cover;
-            position: relative;
-        }
 
-        .registration_form {
-            position: fixed;
-            transform: translate(-50%, -50%);
-            top: 50%;
-            left: 50%;
+    <div class="error-notification hidden-form">
+        <div>
+            <p class="errors-list"> <?= "$errors" ?> </p>
+            <button onclick="errWindowClose()">Close</button>
+        </div>
+    </div>
 
-            width: 700px;
-            opacity: 0.7;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 10px;
-            box-shadow: 7px 13px 24px 13px rgba(0, 0, 0, 0.45);
-        }
+    <link rel="stylesheet" href="styles/mainStyle.css">
+    <link rel="stylesheet" href="styles/signUp.css">
+    <script src="js/signUp.js"></script>
 
-        .registration_form form {
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
 
-        .registration_form label {
-            width: 500px;
-            color: maroon;
-        }
-
-        .registration_form input,
-        textarea {
-            width: 650px;
-            color: maroon;
-            margin-bottom: 10px;
-            min-height: 20px;
-            border-radius: 7px;
-            border: none;
-            background-color: #ddd;
-            padding: 5px 15px;
-        }
-
-        .registration_form input[type="submit"],
-        input[type="reset"] {
-            width: 100px;
-            color: #fff;
-
-            border: none;
-            background-color: orangered;
-            padding: 5px 15px;
-            margin: 0 15px;
-        }
-
-        .button_cont {
-            display: flex;
-            justify-content: center;
-            width: 650px;
-        }
-
-        h3 {
-            width: 100%;
-            background-color: orangered;
-            color: #fff;
-            text-align: center;
-        }
-    </style>
 </body>
 
 </html>
