@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 29 2019 г., 13:27
+-- Время создания: Янв 06 2020 г., 15:47
 -- Версия сервера: 10.3.13-MariaDB-log
 -- Версия PHP: 7.1.32
 
@@ -159,7 +159,7 @@ INSERT INTO `goods` (`id`, `name`, `category_id`, `date_open`, `description`, `i
 CREATE TABLE `goods_photos` (
   `good_id` int(11) NOT NULL,
   `photo_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Каталог дополнительных фото товаров (основное фото-прямо в таблице goods)';
 
 -- --------------------------------------------------------
 
@@ -177,9 +177,13 @@ CREATE TABLE `good_categories` (
 --
 
 INSERT INTO `good_categories` (`id`, `name`) VALUES
+(9, 'controllers'),
+(4, 'kits'),
 (2, 'power supply'),
 (3, 'security'),
-(1, 'smart house');
+(10, 'sensors'),
+(1, 'smart house'),
+(11, 'software');
 
 -- --------------------------------------------------------
 
@@ -193,7 +197,7 @@ CREATE TABLE `hot_offers` (
   `date_close` timestamp NULL DEFAULT NULL,
   `good_id` int(11) NOT NULL,
   `comment` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Таблица горячих предложений товара без каких-либо скидок, просто для выведения на гравную страницу';
 
 --
 -- Дамп данных таблицы `hot_offers`
@@ -227,8 +231,17 @@ CREATE TABLE `orders` (
 
 CREATE TABLE `payment_types` (
   `id` int(11) NOT NULL,
-  `name` int(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `name` varchar(1024) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Перечисление типов платежей';
+
+--
+-- Дамп данных таблицы `payment_types`
+--
+
+INSERT INTO `payment_types` (`id`, `name`) VALUES
+(3, 'банковской картой при получении'),
+(4, 'оплата банковской картой на сайте'),
+(1, 'Оплата наличными при получении');
 
 -- --------------------------------------------------------
 
@@ -243,7 +256,7 @@ CREATE TABLE `photos` (
   `descript` varchar(150) DEFAULT NULL,
   `date_created` timestamp NULL DEFAULT current_timestamp(),
   `number_of_views` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Все картинки в системе, в т.ч. картнки товаров';
 
 --
 -- Дамп данных таблицы `photos`
@@ -278,7 +291,7 @@ CREATE TABLE `prices` (
   `currency` char(3) NOT NULL,
   `date_open` timestamp NOT NULL DEFAULT current_timestamp(),
   `date_close` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Текущие цены на товар без учета скидок по акциям. Цена имеет начало своего действия date_open и окончание date_close';
 
 --
 -- Дамп данных таблицы `prices`
@@ -301,7 +314,7 @@ CREATE TABLE `slider_info` (
   `img` varchar(1024) NOT NULL,
   `description` varchar(1024) NOT NULL,
   `link` varchar(1024) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица с параметрами изображений и спопровождающего текста для слайдера на первой странице';
 
 --
 -- Дамп данных таблицы `slider_info`
@@ -337,13 +350,28 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`login`, `password`, `name`, `phone`, `email`, `address`, `description`, `date_created`, `last_login`) VALUES
+('a.evlampiev', '783ac652c5f64ab07ccb3e410aa97fc09687cc33b48qf', 'Artyom Evlampiev', '322223', 'artem@gmail.com', 'Moscow, Birulevskaya', 'Some additional info', '2020-01-03 11:29:18', NULL),
 ('admin', 'admin', 'Администратор системы', NULL, 'kevlampiev@gmail.com', NULL, NULL, '2019-12-21 20:48:59', NULL),
-('alex', '22', 'Alex Green', '', '', NULL, NULL, '2019-12-22 04:44:49', NULL),
 ('alexa', 'alexa', 'Alexa Wood', '', '', NULL, NULL, '2019-12-22 04:47:25', NULL),
+('arhangel', '783ac658c4205ec33d8f6caeaaaa0c10a14138c3b48qf', 'Arhangel Adrian', 'no phone', 'adrian@arhangel.com', 'Heaven', '', '2020-01-03 12:30:52', NULL),
+('arhimandrid', '783ac652da6687edec690dece8c371cd1a9866d3b48qf', 'arhimandrid Eugeni', '', 'arhimandrid@mail.com', '', '', '2020-01-03 13:19:11', NULL),
+('jorn', '783ac65d8578edf8458ce06fbc5bb76a58c5ca43b48qf', 'Jorn Landre', '', 'jorn@mail.ru', '', '', '2020-01-03 14:06:15', NULL),
 ('kevlampiev', '112', 'Константин Евлампиев', '89632883655', 'kevlampiev@gmail.com', NULL, NULL, '2019-12-22 04:42:43', NULL),
-('Kru', 'kru', 'Kru the evil', '111', '', NULL, NULL, '2019-12-22 04:54:14', NULL),
-('nort', '1111', 'Nort', '', '', NULL, NULL, '2019-12-22 04:48:04', NULL),
-('Tor', 'tor', 'Tor', '', '', NULL, NULL, '2019-12-22 04:51:40', NULL);
+('leshiy', '783ac6567dd010e56986a40d8a6695c36542bb53b48qf', 'Alex Fitness', '89632883655', 'kevlampiev@gmail.com', '', '', '2020-01-03 11:20:29', NULL),
+('Maxim', '783ac6533fd8226b5c19530fa30444978894f113b48qf', 'Максим Евлампиев', '', 'm.evlampiev@gmail.com', '', '', '2020-01-05 12:10:59', NULL),
+('sho', '783ac65cf57c97b62b5eda9144cc631dfa38eb63b48qf', 'Sho Gi Bop', '89632883655', 'sho@mail.ru', '', '', '2020-01-03 11:22:51', NULL),
+('test', '783ac65098f6bcd4621d373cade4e832627b4f63b48qf', 'Test Test', '', 'test@gmail.com', '', '', '2020-01-05 14:36:49', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Дублирующая структура для представления `v_active_categories`
+-- (См. Ниже фактическое представление)
+--
+CREATE TABLE `v_active_categories` (
+`id` int(11)
+,`name` varchar(150)
+);
 
 -- --------------------------------------------------------
 
@@ -353,6 +381,7 @@ INSERT INTO `users` (`login`, `password`, `name`, `phone`, `email`, `address`, `
 --
 CREATE TABLE `v_available_goods` (
 `id` int(11)
+,`category_id` int(11)
 ,`name` varchar(255)
 ,`category` varchar(150)
 ,`description` text
@@ -397,11 +426,34 @@ CREATE TABLE `v_hot_offer` (
 -- --------------------------------------------------------
 
 --
+-- Дублирующая структура для представления `v_usr_cart_stats`
+-- (См. Ниже фактическое представление)
+--
+CREATE TABLE `v_usr_cart_stats` (
+`login` varchar(50)
+,`password` varchar(255)
+,`name` varchar(120)
+,`cart_count` decimal(32,0)
+,`cart_summ` double
+);
+
+-- --------------------------------------------------------
+
+--
+-- Структура для представления `v_active_categories`
+--
+DROP TABLE IF EXISTS `v_active_categories`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_active_categories`  AS  select distinct `v_available_goods`.`category_id` AS `id`,`v_available_goods`.`category` AS `name` from `v_available_goods` order by `v_available_goods`.`category_id` ;
+
+-- --------------------------------------------------------
+
+--
 -- Структура для представления `v_available_goods`
 --
 DROP TABLE IF EXISTS `v_available_goods`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_available_goods`  AS  select `g`.`id` AS `id`,`g`.`name` AS `name`,`gc`.`name` AS `category`,`g`.`description` AS `description`,`p`.`price` AS `price`,`p`.`currency` AS `currency`,`g`.`img` AS `img` from ((`goods` `g` join `prices` `p` on(`g`.`id` = `p`.`good_id`)) join `good_categories` `gc` on(`g`.`category_id` = `gc`.`id`)) where `p`.`date_close` > current_timestamp() or `p`.`date_close` is null order by `gc`.`name`,`g`.`name` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_available_goods`  AS  select `g`.`id` AS `id`,`g`.`category_id` AS `category_id`,`g`.`name` AS `name`,`gc`.`name` AS `category`,`g`.`description` AS `description`,`p`.`price` AS `price`,`p`.`currency` AS `currency`,`g`.`img` AS `img` from ((`goods` `g` join `prices` `p` on(`g`.`id` = `p`.`good_id`)) join `good_categories` `gc` on(`g`.`category_id` = `gc`.`id`)) where `p`.`date_close` > current_timestamp() or `p`.`date_close` is null order by `gc`.`name`,`g`.`name` ;
 
 -- --------------------------------------------------------
 
@@ -420,6 +472,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_cart`
 DROP TABLE IF EXISTS `v_hot_offer`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_hot_offer`  AS  select `ag`.`id` AS `id`,`ag`.`name` AS `name`,`ag`.`category` AS `category`,`ag`.`description` AS `description`,`ag`.`price` AS `price`,`ag`.`currency` AS `currency`,`ag`.`img` AS `img` from (`v_available_goods` `ag` join `hot_offers` `ho` on(`ag`.`id` = `ho`.`good_id`)) where `ho`.`date_open` < current_timestamp() and (`ho`.`date_close` > current_timestamp() or `ho`.`date_close` is null) ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура для представления `v_usr_cart_stats`
+--
+DROP TABLE IF EXISTS `v_usr_cart_stats`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_usr_cart_stats`  AS  select `users`.`login` AS `login`,`users`.`password` AS `password`,`users`.`name` AS `name`,0 AS `cart_count`,0 AS `cart_summ` from `users` where !(`users`.`login` in (select distinct `cart`.`user` from `cart`)) union select `usr`.`login` AS `login`,`usr`.`password` AS `password`,`usr`.`name` AS `name`,sum(`c`.`amount`) AS `cart_count`,sum(`c`.`amount` * `c`.`price`) AS `SUM(c.amount*c.price)` from (`users` `usr` join `v_cart` `c`) where `c`.`user` = `usr`.`login` group by `usr`.`login`,`usr`.`password`,`usr`.`name` ;
 
 --
 -- Индексы сохранённых таблиц
@@ -558,7 +619,7 @@ ALTER TABLE `goods`
 -- AUTO_INCREMENT для таблицы `good_categories`
 --
 ALTER TABLE `good_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT для таблицы `hot_offers`
@@ -576,7 +637,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT для таблицы `payment_types`
 --
 ALTER TABLE `payment_types`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `photos`
