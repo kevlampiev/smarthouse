@@ -9,126 +9,65 @@ function logOut() {
 }
 
 function startLogin() {
+
     let wnd = document.querySelector('.login-form');
     wnd.classList.remove("hidden-form");
 }
 
-function cancelLogin() {
+function closeLoginWnd() {
     let wnd = document.querySelector('.login-form');
     wnd.classList.add("hidden-form");
 }
 
-function proceedLogin() {
-
-    //скрыть лишний div с серым приветствием
-    //установить 3 cookies (сделает php?)
-    //установить имя вместо user в шапке
+function cancelLogin() {
+    closeLoginWnd()
 }
 
-// import cart from './cart'
-// import goodsList from './catalog'
-// import errorNotification from './error_notification'
-// import buyNotification from './buy_notification'
-// import slider from './slider'
-// import search from './search'
+function setUserData(userInfo) {
+    let userNameEl = document.querySelector('.userNameDspl')
+    userNameEl.innerHTML = userInfo.name;
+
+    let singUpEl = document.querySelector('.header__info')
+    //singUpEl.classList.add('hidden-form');
+    singUpEl.style.display = "none"
+
+    let socialIcons = document.querySelector('.header__socialIconsContainer');
+    socialIcons.style.display = "none"
+}
 
 
-// let app = new Vue({
-//     el: '.container',
-//     data: {
-//         isVisibleCart: false,
-//         displayErrorNotification: false,
-//         displayBuyNotification: false,
-//         notificationMessage: ''
-//     },
-//     computed: {},
-//     methods: {
-//         async makeGetReq(url) {
-//             try {
-//                 const data = await fetch(url);
-//                 return await data.json();
-//             } catch (err) {
-//                 this.notificationMessage = 'Error while trying to get \n' + url;
-//                 console.log(err);
-//                 this.displayErrorNotification = true;
-//             }
-//         },
-
-//         /**
-//          * 
-//          * @param {String} url путь в формате /path/:id 
-//          * @param {Obj} data объект с полем quantity, которое будет установлено количеству товара в корзине
-//          */
-//         async putJson(url, data) {
-//             return await fetch(url, {
-//                     method: 'PUT',
-//                     headers: {
-//                         "Content-type": "application/json"
-//                     },
-//                     body: JSON.stringify(data)
-//                 })
-//                 .then(result => result.json())
-//                 .catch(err => {
-//                     console.log(err);
-//                     this.notificationMessage = 'Error while trying to get \n' + url;
-//                     this.displayErrorNotification = true;
-//                 })
-//         },
+async function postJson(url, data) {
+    try {
+        const result = await fetch(url, {
+            method: 'POST',
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+        return result.json();
+    } catch (err) {
+        console.error(err);
+        //НАдо добить вывод ошибки в отдельном окошке всплывающем
+    }
+}
 
 
-//         /**
-//          * Функция добавляет принципиально новый товар в корзину 
-//          * @param {String} url маршрут
-//          * @param {*} data Объект корзины с выставленным количеством товара
-//          */
-//         async postJson(url, data) {
-//             try {
-//                 const result = await fetch(url, {
-//                     method: 'POST',
-//                     headers: {
-//                         "Content-type": "application/json"
-//                     },
-//                     body: JSON.stringify(data)
-//                 });
-//                 return result.json();
-//             } catch (err) {
-//                 console.error(err);
-//                 this.notificationMessage = 'Error while trying to get \n' + url;
-//                 this.displayErrorNotification = true;
-//             }
-//         },
+async function proceedLogin() {
 
-//         async deleteJson(url) {
-//             return await fetch(url, {
-//                     method: 'DELETE',
-//                     headers: {
-//                         "Content-type": "application/json"
-//                     }
-//                 })
-//                 .then(result => result.json())
-//                 .catch(err => {
-//                     console.error(err);
-//                     this.notificationMessage = 'Error while trying to get \n' + url;
-//                     this.displayErrorNotification = true;
-//                 })
-//         }
+    //let loginWnd = document.querySelector('.login-form')
+    let lgn = document.getElementsByName('login')[0].value
+    let pass = document.getElementsByName('password')[0].value
 
+    let result = await postJson('/login.php', {
+        login: lgn,
+        password: pass
+    })
 
-//     },
-
-
-
-//     async mounted() {
-
-//     },
-//     components: {
-//         'goods-list': goodsList,
-//         'search': search,
-//         'cart': cart,
-//         'error_notification': errorNotification,
-//         'buy_notification': buyNotification,
-//         'slider': slider
-//     }
-// })
-
-// // export default app
+    if ('error' in result) {
+        alert(result.error)
+    } else {
+        setUserData(result)
+        closeLoginWnd()
+    }
+}

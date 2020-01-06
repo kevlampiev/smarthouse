@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="js/main.js" defer></script>
 
 
@@ -45,6 +46,8 @@
                         </a> </li>
                     <?php if ($_COOKIE['username'] != "") : ?>
                         <li><a class="userMenu__item" href="#" onclick="logOut()">log out</a></li>
+                    <?php else : ?>
+                        <li><a class="userMenu__item" href="#" onclick="startLogin()">log in</a></li>
                     <?php endif; ?>
 
                 </ul>
@@ -64,13 +67,14 @@
 
             <div class="header__linksBand grayStyled">
 
-                <p class="header__info <?= ($_COOKIE['username'] != "") ? "hidden-form" : "" ?>">
+                <p class="header__info <?= ($_COOKIE['username'] != "") ? "non-displayed" : "" ?>">
                     Welcome visitor you can
                     <a href="#" onclick="startLogin()" class="signUp-link">login</a>
                     or
                     <a href="signUp.php" class="signUp-link">create an account</a>.
                 </p>
-                <div class="header__socialIconsContainer">
+                <div class="header__socialIconsContainer <?= ($_COOKIE['username'] != "") ? "non-displayed" : "" ?>">
+
                     <a href="#" class="header__socialIcon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                     <a href="#" class="header__socialIcon"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
                     <a href="#" class="header__socialIcon"><i class="fa fa-twitter" aria-hidden="true"></i></a>

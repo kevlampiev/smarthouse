@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/../settings/common.php";
 require_once __DIR__ . "/../engine/functions.php";
-require_once __DIR__ . "/../engine/newUser.php";
+require_once __DIR__ . "/../engine/auth.php";
 
 if (isset($_POST['login'])) {
     //Значит, хотим занести информацию о пользователе

@@ -50,6 +50,9 @@ function getPostUsrInfo(): User
     return $usr;
 }
 
+/**
+ * Для проверки записи о новом пользователе до его регистрации в системе пользователе до его 
+ */
 function dataUserErrors(User $usr): string
 {
     $result = "";
@@ -59,4 +62,29 @@ function dataUserErrors(User $usr): string
     if (($usr->email) == "") $result .= "- field \"email\" must be filled out <br>";
 
     return $result;
+}
+
+
+function logInUser(string $login, string $password): string
+{
+    global $dbConnection, $solt, $pepper;
+    $password = $solt . md5($password) . $pepper;
+    $sql = "SELECT name, cart_count, cart_summ  FROM v_usr_cart_stats
+           WHERE login=\"$login\" AND password=\"$password\"";
+
+    $res = mysqli_query($dbConnection, $sql);
+
+    if (mysqli_num_rows($res) == 0) {
+        return json_encode(
+            array("error" =>
+            "Error: incorrect login or password ...")
+        );
+    } else {
+        $row = mysqli_fetch_assoc($res);
+        setcookie('login', $row['login'], time() + 7 * 24 * 3600);
+        setcookie('password', $row['password'], time() + 7 * 24 * 3600);
+        setcookie('username', $row['name'], time() + 7 * 24 * 3600);
+
+        return json_encode($row);
+    }
 }

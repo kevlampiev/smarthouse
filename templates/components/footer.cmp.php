@@ -69,7 +69,7 @@
         <label for="password">Password: </label>
         <input type="password" name="password">
         <div class="button_cont">
-            <button>Ok</button>
+            <button onclick="proceedLogin()">Ok</button>
 
             <button onclick="cancelLogin()  ">Cancel</button>
         </div>
