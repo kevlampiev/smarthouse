@@ -16,11 +16,11 @@ function render(string $template, array $data): string
     return ob_get_clean();
 }
 
-function gPostStr(string $param): string
+function gPostStr(string $param): ?string
 {
     if (!isset($_POST[$param])) {
-        return "";
-    } else {
-        return strip_tags((string) $_POST[$param]);
-    }
+        return null;
+    };
+
+    return strip_tags((string) $_POST[$param]);
 }

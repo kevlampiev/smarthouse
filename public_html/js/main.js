@@ -58,10 +58,12 @@ async function proceedLogin() {
     //let loginWnd = document.querySelector('.login-form')
     let lgn = document.getElementsByName('login')[0].value
     let pass = document.getElementsByName('password')[0].value
+    let rememberMe = document.getElementsByName('rememberMe')[0].value
 
     let result = await postJson('/login.php', {
         login: lgn,
-        password: pass
+        password: pass,
+        rememberMe
     })
 
     if ('error' in result) {

@@ -68,10 +68,11 @@
         <input type="text" name="login">
         <label for="password">Password: </label>
         <input type="password" name="password">
+        <input type="checkbox" name="rememberMe" value="rememberMe" checked> Remember me
         <div class="button_cont">
             <button onclick="proceedLogin()">Ok</button>
 
-            <button onclick="cancelLogin()  ">Cancel</button>
+            <button onclick="cancelLogin()">Cancel</button>
         </div>
 
     </div>

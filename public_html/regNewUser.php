@@ -3,7 +3,9 @@ require_once __DIR__ . "/../settings/common.php";
 require_once __DIR__ . "/../engine/functions.php";
 require_once __DIR__ . "/../engine/auth.php";
 
-if (isset($_POST['login'])) {
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     //Значит, хотим занести информацию о пользователе
     $usr = getPostUsrInfo();
     $errors = dataUserErrors($usr);

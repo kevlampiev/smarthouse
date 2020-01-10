@@ -3,6 +3,8 @@ require_once __DIR__ . "/../settings/common.php";
 require_once __DIR__ . "/../engine/functions.php";
 require_once __DIR__ . "/../engine/good.data.php";
 require_once __DIR__ . "/../engine/categories.data.php";
+require_once __DIR__ . "/../engine/auth.php";
+
 
 $pageData = singleGoodData();
 
@@ -18,3 +20,4 @@ if (!$pageData) {
         'good' => singleGoodData()
     ]);
 }
+autoLogin();
