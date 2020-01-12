@@ -58,13 +58,18 @@ async function proceedLogin() {
     //let loginWnd = document.querySelector('.login-form')
     let lgn = document.getElementsByName('login')[0].value
     let pass = document.getElementsByName('password')[0].value
-    let rememberMe = document.getElementsByName('rememberMe')[0].value
 
-    let result = await postJson('/login.php', {
+    let requestBody = {
         login: lgn,
-        password: pass,
-        rememberMe
-    })
+        password: pass
+    }
+
+    if (document.getElementsByName('rememberMe')[0].checked) {
+        requestBody.rememberMe = "rememberMe"
+    }
+
+
+    let result = await postJson('/login.php', requestBody)
 
     if ('error' in result) {
         alert(result.error)

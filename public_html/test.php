@@ -1,10 +1,31 @@
 
 <?php
 require_once __DIR__ . "/../engine/dbhelpers.php";
+require_once __DIR__ . "/../engine/auth.php";
+
+// $sql = "INSERT INTO user_tokens(login,token_seria,token_number) VALUES (?,?,?)";
+// $a = "test5";
+// $b = "test-5-token-seria";
+// $c = "test-5-token-number";
+
+// $arg = [$a, $b, $c];
+
+// echo insDelUpdRows($sql, $arg);
 
 
-$rows = selectRows("SELECT * FROM users where login LIKE ?", array("test%"));
+$login = "test4";
 
-foreach ($rows as $row) {
-    echo print_r($row);
-}
+$tokenSeria = "uVtxIRnBI1+mI2RqfgmzFvydjF6GGG5wlpRsosBdeyg+sqLs7CCWaFEyGa/hI45aKxil/3EuAm4HsJ2gcLOLfg==";
+$tokenNumber = "kook";
+$sql = "UPDATE user_tokens 
+            SET token_number=?, last_login=SYSDATE()
+            WHERE login=? AND token_seria=?";
+$rowsAffected = insDelUpdRows($sql, [$tokenNumber, $login, $tokenSeria]);
+
+echo $rowsAffected;
+        
+
+
+// foreach ($rows as $el) {
+//     print_r($el);
+// }

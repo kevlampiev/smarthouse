@@ -6,6 +6,7 @@ require_once __DIR__ . "/../engine/slider.data.php";
 require_once __DIR__ . "/../engine/categories.data.php";
 require_once __DIR__ . "/../engine/auth.php";
 
+autoLogin();
 
 echo render("index.tpl", [
     'document' => $document,
@@ -14,5 +15,3 @@ echo render("index.tpl", [
     'hotOffer' => hotOffData(),
     'mostPopular' => hotOffData()
 ]); //Работает, но непонятно для чего
-
-autoLogin();

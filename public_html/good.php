@@ -5,6 +5,7 @@ require_once __DIR__ . "/../engine/good.data.php";
 require_once __DIR__ . "/../engine/categories.data.php";
 require_once __DIR__ . "/../engine/auth.php";
 
+autoLogin();
 
 $pageData = singleGoodData();
 
@@ -20,4 +21,3 @@ if (!$pageData) {
         'good' => singleGoodData()
     ]);
 }
-autoLogin();

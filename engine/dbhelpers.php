@@ -39,12 +39,14 @@ function strParams(array $params): string
 function insDelUpdRows(string $sql, array $params): int
 {
     global $dbConnection;
-    //ДОРАБОТКА. ошибки вообще не отслуживаются. Надо сделать 
     $statement = mysqli_prepare($dbConnection, $sql);
 
-    $tmpParams = array($statement, strParams($params));
-    foreach ($params as $el) {
-        $tmpParams[] = &$el;
+    //echo $sql;
+    print_r($statement);
+
+    $tmpParams = [$statement, strParams($params)];
+    for ($i = 0; $i < count($params); $i++) {
+        $tmpParams[] = &$params[$i];
     }
 
     call_user_func_array("mysqli_stmt_bind_param", $tmpParams);
@@ -62,11 +64,13 @@ function selectRows(string $sql, array $params): array
     global $dbConnection;
     $statement = mysqli_prepare($dbConnection, $sql);
 
-    $tmpParams = array($statement, strParams($params));
-    foreach ($params as $el) {
-        $tmpParams[] = &$el;
+    $tmpParams = [$statement, strParams($params)];
+
+    for ($i = 0; $i < count($params); $i++) {
+        $tmpParams[] = &$params[$i];
     }
     call_user_func_array("mysqli_stmt_bind_param", $tmpParams);
+
 
     mysqli_stmt_execute($statement);
     $result = mysqli_stmt_get_result($statement);

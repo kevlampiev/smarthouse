@@ -138,11 +138,7 @@ function logInUser(string $login, ?string $password, ?string $rememberMe): array
         return ["error" => "password is incorrect "];
     }
 
-    if (
-        isset($rememberMe) &&
-        !is_null($rememberMe) &&
-        ($rememberMe != "")
-    ) {
+    if (isset($rememberMe)) {
         giveOutToken($login, null);
         grantAccess($login);
     }
@@ -198,9 +194,13 @@ function getTokenOwner(array $token): ?string
     if (!isset($token['token_seria']) || !isset($token['token_number'])) {
         return null;
     }
+
     $sql = "SELECT login FROM user_tokens 
-        WHERE token_seria=? AND token_number=?";
-    $res = selectRows($sql, array($token['token_seria'], $token['token_number']));
+    WHERE token_seria=? AND token_number=?";
+    $args = [$token['token_seria'], $token['token_number']];
+
+
+    $res = selectRows($sql, $args);
     if (count($res) == 0) {
         return null;
     }
@@ -209,15 +209,11 @@ function getTokenOwner(array $token): ?string
 }
 
 //Вспомогательная функция для giveOutToken
-function registerToken(
-    string $sql,
-    string $tokenNumber,
-    string $login,
-    string $tokenSeria
-): bool {
-    if (insDelUpdRows($sql, array($tokenNumber, $login, $tokenSeria)) == 0) {
-        return false;
-    }
+function registerToken(string $tokenSeria,  string $tokenNumber): bool
+{
+    // if (insDelUpdRows($sql, array($tokenNumber, $login, $tokenSeria)) == 0) {
+    //     return false;
+    // }
     setcookie(
         "token",
         base64_encode(implode(':', [$tokenSeria, $tokenNumber])),
@@ -231,18 +227,30 @@ function registerToken(
  */
 function giveOutToken(string $login, ?string $tokenSeria): bool
 {
-    if (is_null($tokenSeria) || $tokenSeria == "") {
+
+
+    if (is_null($tokenSeria)) {
         //серия не задана - делаем новую строку
         $tokenSeria = base64_encode(random_bytes(64));
         $tokenNumber = base64_encode(random_bytes(64));
-        $sql = "INSERT INTO user_tokens(token_number,login,token_seria) VALUES (?,?,?)";
+        $sql = "INSERT INTO user_tokens(login,token_seria,token_number) 
+                    VALUES (?,?,?)";
+        $rowsAffected = insDelUpdRows($sql, [$login, $tokenSeria, $tokenNumber]);
+        if ($rowsAffected === 0) {
+            return false;
+        }
     } else {
         //серия задана - делаем только новый номер
         $tokenNumber = base64_encode(random_bytes(64));
-        $sql = "UPDATE user_tokens SET token_number=?, last_login=SYSDATE()
-                    WHERE login=? AND token_seria=?";
+        $sql = "UPDATE user_tokens 
+                SET token_number=?, last_login=SYSDATE()
+                WHERE login=? AND token_seria=?";
+        if (insDelUpdRows($sql, [$tokenNumber, $login, $tokenSeria]) === 0) {
+            return false;
+        }
     }
-    return registerToken($sql, $tokenNumber, $login, $tokenSeria);
+
+    return registerToken($tokenSeria, $tokenNumber);
 }
 
 
@@ -260,12 +268,16 @@ function autoLogin(): bool
     if (is_null($token)) {
         return false;
     }
-    //Проверяем токен на "левость"
+
+
+    // Проверяем токен на "левость"
     $login = getTokenOwner($token);
     if (is_null($login)) {
         return false;
     }
 
     giveOutToken($login, $token['token_seria']);
-    return grantAccess($login);
+    // return grantAccess($login);
+
+    return true;
 }
