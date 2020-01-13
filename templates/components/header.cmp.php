@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script> -->
     <script src="js/main.js" defer></script>
+    <script src="js/header.js" defer></script>
 
 
 
@@ -23,29 +25,40 @@
         <div class="header">
             <div class="header__linksBand orangeStyled">
                 <div class="header__logo">
-                    <a href="/"><img class="header__logoImage" src="./img/atom.png" alt="Логотип"></a>
+                    <a href="/"><img class="header__logoImage" src="./img/atom.png" alt="Logo"></a>
                     <p>Atomic</p>
 
                 </div>
                 <div class="userNameDspl">
+                    <!-- Сбойный элемент: статический текст. Что-то надо придумать поумнее -->
                     <?= $_SESSION['name'] ?>
                 </div>
 
-                <ul class="userMenu">
-                    <li> <a class="userMenu__item" href="#">wish list</a></li>
-                    <li><a class="userMenu__item" href="#">my account</a></li>
-                    <li><a class="userMenu__item" href="#">checkout</a></li>
-                    <li> <a class="userMenu__item" href="#" @click="isVisibleCart=!isVisibleCart">
-                            <i class="fas fa-shopping-basket"></i>
-                            <!-- <span class="basket_indicator">{{cartAmount}}</span> -->
-                        </a> </li>
-                    <?php if (isset($_SESSION['name'])) : ?>
-                        <li><a class="userMenu__item" href="#" onclick="logOut()">log out</a></li>
-                    <?php else : ?>
-                        <li><a class="userMenu__item" href="#" onclick="startLogin()">log in</a></li>
-                    <?php endif; ?>
 
+
+                <ul class="userMenu">
+                    <li v-if="registered"> <a class="userMenu__item" href="#">wish list</a></li>
+                    <li v-if="registered"><a class="userMenu__item" href="#">my account</a></li>
+                    <li v-if="registered"><a class="userMenu__item" href="#">checkout</a></li>
+                    <li> <a class="userMenu__item" href="#">
+                            <i class="fas fa-shopping-basket"></i>
+                        </a> </li>
+                    <li v-if="registered"><a class="userMenu__item" href="logout.php">log out</a></li>
+                    <template v-else>
+                        <li>
+                            <a class="userMenu__item" href="#" @click="startLogin()">log in</a>
+                        </li>
+                        <li>
+                            <a href="regNewUser.php" class="userMenu__item">sign up</a>
+                        </li>
+                        <li><a href="#" class="userMenu__item"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a href="#" class="userMenu__item"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        <li><a href="#" class="userMenu__item"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+
+                    </template>
                 </ul>
+
+
             </div>
 
 
@@ -62,18 +75,6 @@
 
             <div class="header__linksBand grayStyled">
 
-                <p class="header__info <?= (isset($_SESSION['name'])) ? "non-displayed" : "" ?>">
-                    Welcome visitor you can
-                    <a href="#" onclick="startLogin()" class="signUp-link">login</a>
-                    or
-                    <a href="regNewUser.php" class="signUp-link">create an account</a>.
-                </p>
-                <div class="header__socialIconsContainer <?= (isset($_SESSION['name'])) ? "non-displayed" : "" ?>">
-
-                    <a href="#" class="header__socialIcon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                    <a href="#" class="header__socialIcon"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
-                    <a href="#" class="header__socialIcon"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                </div>
 
                 <div class="searchForm">
                     <input type="search" placeholder="Enter search string here...">
@@ -81,7 +82,23 @@
                 </div>
             </div>
 
+            <!-- окно ввода пароля -->
+            <div class="login-form cyanStyled" v-if="logInInProcess">
+                <div>
+                    <label for="login">Login: </label>
+                    <input type="text" name="login" v-model="login">
+                    <label for="password">Password: </label>
+                    <input type="password" name="password" v-model="password">
+                    <label>
+                        <input type="checkbox" name="rememberMe" value="rememberMe" v-model="rememberMe"> Remember me </label>
+                    <div class="button_cont">
+                        <button @click="proceedLogin()">Ok</button>
 
+                        <button @click="cancelLogin()">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
 
 
         </div>

@@ -36,21 +36,19 @@ function strParams(array $params): string
     return $res;
 }
 
-function insDelUpdRows(string $sql, array $params): int
+function insDelUpdRows(string $sql, array $params = []): int
 {
     global $dbConnection;
     $statement = mysqli_prepare($dbConnection, $sql);
 
-    //echo $sql;
-    print_r($statement);
-
-    $tmpParams = [$statement, strParams($params)];
-    for ($i = 0; $i < count($params); $i++) {
-        $tmpParams[] = &$params[$i];
+    $tmpParams = [$statement];
+    if (count($params) > 0) {
+        $tmpParams[] = strParams($params);
+        foreach ($params as &$param) {
+            $tmpParams[] = &$param;
+        }
+        call_user_func_array("mysqli_stmt_bind_param", $tmpParams);
     }
-
-    call_user_func_array("mysqli_stmt_bind_param", $tmpParams);
-
     mysqli_stmt_execute($statement);
     $affectedRows = mysqli_stmt_affected_rows($statement);
     mysqli_stmt_close($statement);
@@ -59,18 +57,19 @@ function insDelUpdRows(string $sql, array $params): int
 }
 
 
-function selectRows(string $sql, array $params): array
+function selectRows(string $sql, array $params = []): array
 {
     global $dbConnection;
     $statement = mysqli_prepare($dbConnection, $sql);
 
-    $tmpParams = [$statement, strParams($params)];
-
-    for ($i = 0; $i < count($params); $i++) {
-        $tmpParams[] = &$params[$i];
+    $tmpParams = [$statement];
+    if (count($params) > 0) {
+        $tmpParams[] = strParams($params);
+        foreach ($params as &$param) {
+            $tmpParams[] = &$param;
+        }
+        call_user_func_array("mysqli_stmt_bind_param", $tmpParams);
     }
-    call_user_func_array("mysqli_stmt_bind_param", $tmpParams);
-
 
     mysqli_stmt_execute($statement);
     $result = mysqli_stmt_get_result($statement);

@@ -448,7 +448,6 @@ h2 {
   border: 1px solid #aaa;
 }
 .login-form label {
-  width: 250px;
   text-align: left;
   color: maroon;
   font-size: 18px;
@@ -462,6 +461,9 @@ h2 {
   border: none;
   background-color: #ddd;
   padding: 5px 15px;
+}
+.login-form input[type="checkbox"] {
+  width: 20px;
 }
 .login-form .button_cont {
   display: flex;

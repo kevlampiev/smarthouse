@@ -17,15 +17,14 @@ $login = "test4";
 
 $tokenSeria = "uVtxIRnBI1+mI2RqfgmzFvydjF6GGG5wlpRsosBdeyg+sqLs7CCWaFEyGa/hI45aKxil/3EuAm4HsJ2gcLOLfg==";
 $tokenNumber = "kook";
-$sql = "UPDATE user_tokens 
-            SET token_number=?, last_login=SYSDATE()
-            WHERE login=? AND token_seria=?";
-$rowsAffected = insDelUpdRows($sql, [$tokenNumber, $login, $tokenSeria]);
+$sql = "SELECT * FROM users";
+$rows = selectRows($sql);
+// $rowsAffected = insDelUpdRows($sql, ["RUB"]);
 
-echo $rowsAffected;
-        
+// echo $rowsAffected;
 
 
-// foreach ($rows as $el) {
-//     print_r($el);
-// }
+
+foreach ($rows as $el) {
+    print_r($el);
+}

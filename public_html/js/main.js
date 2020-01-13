@@ -1,38 +1,8 @@
-function logOut() {
-    let date = new Date(Date.now() - 3600)
-    date = date.toUTCString()
-    document.cookie = "login='';expires=" + date
-    document.cookie = "password='';expires=" + date
-    document.cookie = "username='';expires=" + date
-    location.reload()
-
-}
-
-function startLogin() {
-
-    let wnd = document.querySelector('.login-form');
-    wnd.classList.remove("hidden-form");
-}
-
-function closeLoginWnd() {
-    let wnd = document.querySelector('.login-form');
-    wnd.classList.add("hidden-form");
-}
-
-function cancelLogin() {
-    closeLoginWnd()
-}
-
-function setUserData(userInfo) {
-    let userNameEl = document.querySelector('.userNameDspl')
-    userNameEl.innerHTML = userInfo.name;
-
-    let singUpEl = document.querySelector('.header__info')
-    //singUpEl.classList.add('hidden-form');
-    singUpEl.style.display = "none"
-
-    let socialIcons = document.querySelector('.header__socialIconsContainer');
-    socialIcons.style.display = "none"
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
 
@@ -45,36 +15,9 @@ async function postJson(url, data) {
             },
             body: JSON.stringify(data)
         });
-        return result.json();
+        return result.json()
     } catch (err) {
-        console.error(err);
-        //НАдо добить вывод ошибки в отдельном окошке всплывающем
-    }
-}
-
-
-async function proceedLogin() {
-
-    //let loginWnd = document.querySelector('.login-form')
-    let lgn = document.getElementsByName('login')[0].value
-    let pass = document.getElementsByName('password')[0].value
-
-    let requestBody = {
-        login: lgn,
-        password: pass
-    }
-
-    if (document.getElementsByName('rememberMe')[0].checked) {
-        requestBody.rememberMe = "rememberMe"
-    }
-
-
-    let result = await postJson('/login.php', requestBody)
-
-    if ('error' in result) {
-        alert(result.error)
-    } else {
-        setUserData(result)
-        closeLoginWnd()
+        console.error(err)
+        //Task. Надо добить вывод ошибки в отдельном окошке всплывающем. Работа для vue
     }
 }

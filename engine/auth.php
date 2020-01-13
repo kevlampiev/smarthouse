@@ -28,7 +28,7 @@ class User //Данные о пользователе
  */
 function grantAccess(string $login): bool
 {
-    $sql = "SELECT name FROM user WHERE login=?";
+    $sql = "SELECT name FROM users WHERE login=?";
     $rows = selectRows($sql, array($login));
     if (count($rows) == 0) {
         return false;
@@ -36,6 +36,7 @@ function grantAccess(string $login): bool
     $row = $rows[0];
     $_SESSION['login'] = $login;
     $_SESSION['name'] = $row['name'];
+    setcookie("is_logged_in", "true", time() + 7 * 24 * 3600);
     return true;
 }
 
@@ -47,6 +48,7 @@ function denyAccess()
 {
     unset($_SESSION['login']);
     $_SESSION['name'] = "guest";
+    setcookie("is_logged_in", "false", time() - 7 * 24 * 3600);
 }
 
 
@@ -127,13 +129,12 @@ function logInUser(string $login, ?string $password, ?string $rememberMe): array
     $sql = "SELECT name, password, cart_count, cart_summ  
                 FROM v_usr_cart_stats
                 WHERE login=?";
-    $rows = selectRows($sql, array($login));
+    $rows = selectRows($sql, [$login]);
     if (count($rows) == 0) {
         return ["error" => "user with login $login doesn't exist "];
     }
 
-    $row = $rows[0];
-    if (!password_verify($password, $row['password'])) {
+    if (!password_verify($password, $rows[0]['password'])) {
         //пароль не совпадает
         return ["error" => "password is incorrect "];
     }
@@ -143,14 +144,14 @@ function logInUser(string $login, ?string $password, ?string $rememberMe): array
         grantAccess($login);
     }
 
-    unset($row['password']);
-    return $row;
+    unset($rows[0]['password']);
+    return $rows[0];
 }
 
 /** 
- * Выкидывает user'а из системы и затирает его токен (если есть). Для ajax
+ * Выкидывает user'а из системы и затирает его токен (если есть). LogOut делаем только на сервере
  */
-function logOutUser(string $login): array
+function logOutUser(string $login)
 {
     denyAccess();
     //надо бы удалить запись о конкретной сессии и почистить cookies
@@ -158,7 +159,7 @@ function logOutUser(string $login): array
     if (!is_null($token)) {
         $sql = "DELETE FROM user_tokens WHERE login=? AND token_seria=?";
         if (insDelUpdRows($sql, array($login, $token['token_seria'])) == 0) {
-            return array("error" => "Can't delete user session ...");
+            return ["error" => "Can't delete user session ..."];
         }
         setcookie(
             "token",
@@ -166,7 +167,8 @@ function logOutUser(string $login): array
             time() - 3600
         );
     }
-    return array("success" => "user logged out");
+    //ничего не возвращаем и вываливаемся на index.php тбо неизвестно, откуда мы вообще вызвали logout
+    header("Location: /index.php");
 }
 
 /* ------------------------------------------------------------------------------------------------------------------
@@ -181,11 +183,14 @@ function getUserToken(): ?array
     if (isset($_COOKIE['token'])) {
         $tokenStr = base64_decode($_COOKIE['token']);
         $arr = explode(":", $tokenStr);
-        return array("token_seria" => $arr[0], "token_number" => $arr[1]);
+        return ["token_seria" => $arr[0], "token_number" => $arr[1]];
     }
     return null;
 }
 
+
+//task
+//Сделать чтобы возвращал массив с login И name
 /**
  * Возвращает логин юзера по токену или null если нет такого токена в базе
  */
@@ -197,15 +202,16 @@ function getTokenOwner(array $token): ?string
 
     $sql = "SELECT login FROM user_tokens 
     WHERE token_seria=? AND token_number=?";
-    $args = [$token['token_seria'], $token['token_number']];
+    // $args = $token;
+    // [$token['token_seria'], $token['token_number']];
 
 
-    $res = selectRows($sql, $args);
+    $res = selectRows($sql, $token);
     if (count($res) == 0) {
         return null;
     }
-    $row = $res[0];
-    return $row['login'];
+    // $row = $res[0];
+    return $res[0]['login'];
 }
 
 //Вспомогательная функция для giveOutToken
@@ -265,19 +271,19 @@ function autoLogin(): bool
     }
     //пытаемся получить доступ через token
     $token = getUserToken();
-    if (is_null($token)) {
+    if ($token === null) {
         return false;
     }
 
-
-    // Проверяем токен на "левость"
+    //task
+    // Проверяем токен на "левость" + ПОЛУЧИТЬ имя и login, а не только LOGIN
     $login = getTokenOwner($token);
-    if (is_null($login)) {
+    if ($login === null) {
         return false;
     }
 
     giveOutToken($login, $token['token_seria']);
-    // return grantAccess($login);
-
-    return true;
+    //task
+    //пусть grantAccess будет таким grantAccess($login, $name);
+    return grantAccess($login);
 }
