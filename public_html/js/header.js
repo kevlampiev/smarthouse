@@ -21,7 +21,7 @@ let header = new Vue({
         cancelLogin() {
             this.login = "";
             this.password = "";
-            closeLoginWnd()
+            this.closeLoginWnd()
         },
         drawName() {
             let nameEl = document.querySelector('.userNameDspl');

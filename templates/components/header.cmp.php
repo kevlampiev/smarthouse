@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script> -->
     <script src="js/main.js" defer></script>
     <script src="js/header.js" defer></script>
 
@@ -40,7 +38,7 @@
                     <li v-if="registered"> <a class="userMenu__item" href="#">wish list</a></li>
                     <li v-if="registered"><a class="userMenu__item" href="#">my account</a></li>
                     <li v-if="registered"><a class="userMenu__item" href="#">checkout</a></li>
-                    <li> <a class="userMenu__item" href="#">
+                    <li> <a class="userMenu__letterItem" href="#">
                             <i class="fas fa-shopping-basket"></i>
                         </a> </li>
                     <li v-if="registered"><a class="userMenu__item" href="logout.php">log out</a></li>
@@ -51,9 +49,9 @@
                         <li>
                             <a href="regNewUser.php" class="userMenu__item">sign up</a>
                         </li>
-                        <li><a href="#" class="userMenu__item"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a href="#" class="userMenu__item"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                        <li><a href="#" class="userMenu__item"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="#" class="userMenu__letterItem"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a href="#" class="userMenu__letterItem"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        <li><a href="#" class="userMenu__letterItem"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
 
                     </template>
                 </ul>

@@ -102,6 +102,7 @@ body {
 
   &__item {
     display: block;
+    min-width: 95px;
     text-decoration: none;
     text-transform: uppercase;
     margin: 0;
@@ -111,15 +112,37 @@ body {
     padding: 26px 10px;
   }
 
-  &__item:hover {
+  &__letterItem {
+    text-align: center;
+    display: block;
+    width: 35px;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin: 0;
+    color: inherit;
+    height: 18px;
+    font-size: 14px;
+    padding: 26px 1px;
+  }
+
+  &__item::after,
+  &__letterItem:after {
+    content: ">";
+    opacity: 0;
+  }
+
+  &__item:hover,
+  &__letterItem:hover {
     font-weight: 900;
     color: black;
     //border-left: 1px solid white;
     //border-right: 1px solid white;
   }
 
-  &__item:hover:after {
+  &__item:hover:after,
+  &__letterItem:hover:after {
     content: ">";
+    opacity: 1;
   }
 }
 
@@ -173,7 +196,6 @@ body {
     border: none;
     border-radius: 10px;
   }
-
 
   .buiItBtn:hover {
     background-color: #111;
@@ -365,7 +387,6 @@ h2 {
   //   border: none;
   //   color: #777;
   // }
-
 }
 
 .cartItem:nth-child(2n) {
@@ -437,7 +458,6 @@ h2 {
   }
 }
 
-
 .buy-notification {
   position: fixed;
   display: flex;
@@ -498,8 +518,8 @@ h2 {
 @-webkit-keyframes zoomIn {
   0% {
     opacity: 0;
-    -webkit-transform: scale3d(.3, .3, .3);
-    transform: scale3d(.3, .3, .3);
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
   }
 
   50% {
@@ -510,15 +530,14 @@ h2 {
 @keyframes zoomIn {
   0% {
     opacity: 0;
-    -webkit-transform: scale3d(.3, .3, .3);
-    transform: scale3d(.3, .3, .3);
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
   }
 
   50% {
     opacity: 1;
   }
 }
-
 
 .signUp-link {
   color: #777;
@@ -531,7 +550,6 @@ h2 {
   color: maroon;
   font-weight: 900;
 }
-
 
 .login-form {
   position: fixed;
@@ -555,7 +573,6 @@ h2 {
     text-align: left;
     color: maroon;
     font-size: 18px;
-
   }
 
   input {

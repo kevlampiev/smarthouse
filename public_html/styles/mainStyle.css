@@ -83,6 +83,7 @@ body {
 }
 .userMenu__item {
   display: block;
+  min-width: 95px;
   text-decoration: none;
   text-transform: uppercase;
   margin: 0;
@@ -91,12 +92,32 @@ body {
   font-size: 14px;
   padding: 26px 10px;
 }
-.userMenu__item:hover {
+.userMenu__letterItem {
+  text-align: center;
+  display: block;
+  width: 35px;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin: 0;
+  color: inherit;
+  height: 18px;
+  font-size: 14px;
+  padding: 26px 1px;
+}
+.userMenu__item::after,
+.userMenu__letterItem:after {
+  content: ">";
+  opacity: 0;
+}
+.userMenu__item:hover,
+.userMenu__letterItem:hover {
   font-weight: 900;
   color: black;
 }
-.userMenu__item:hover:after {
+.userMenu__item:hover:after,
+.userMenu__letterItem:hover:after {
   content: ">";
+  opacity: 1;
 }
 .goods-list {
   display: flex;
