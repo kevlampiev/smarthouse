@@ -1,20 +1,16 @@
 <?php
 
 require_once __DIR__ . "/../settings/common.php";
+require_once __DIR__ . "/../engine/dbhelpers.php";
 
-function goodsOfCategory()
+function goodsOfCategory(): ?array
 {
-    global $dbConnection;
     if (isset($_GET["id"])) {
         $category = (int) $_GET["id"];
-        $result = mysqli_query($dbConnection, "SELECT * FROM v_available_goods WHERE category_id=$category")
-            or die("Error: " . mysqli_error($dbConnection));
-        $rows = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $rows[] = $row;
-        }
+        $sql = "SELECT id,name,price,currency,img FROM v_available_goods WHERE category_id=?";
+        $rows = selectRows($sql, [$category]);
     } else {
-        $rows = false;
+        $rows = null;
     }
     return $rows;
 }

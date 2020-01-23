@@ -11,7 +11,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="js/main.js" defer></script>
+    <script src="js/cart/cartLocal.js" defer></script>
+    <script src="js/cart/cartDB.js" defer></script>
+    <script src="js/cart/cartOperations.js" defer></script>
+    <script src="js/cart.js" defer></script>
     <script src="js/header.js" defer></script>
+
+
+
+
 
 
 
@@ -38,10 +46,8 @@
                     <li v-if="registered"> <a class="userMenu__item" href="#">wish list</a></li>
                     <li v-if="registered"><a class="userMenu__item" href="#">my account</a></li>
                     <li v-if="registered"><a class="userMenu__item" href="#">checkout</a></li>
-                    <li> <a class="userMenu__letterItem" href="#">
-                            <i class="fas fa-shopping-basket"></i>
-                        </a> </li>
-                    <li v-if="registered"><a class="userMenu__item" href="logout.php">log out</a></li>
+
+                    <li v-if="registered"><a class="userMenu__item" href="#" @click="logOut()">log out</a></li>
                     <template v-else>
                         <li>
                             <a class="userMenu__item" href="#" @click="startLogin()">log in</a>
@@ -54,6 +60,10 @@
                         <li><a href="#" class="userMenu__letterItem"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
 
                     </template>
+                    <li> <a class="userMenu__letterItem" href="#" @click="isVisibleCart=!isVisibleCart">
+                            <i class="fas fa-shopping-basket"></i>
+                        </a>
+                    </li>
                 </ul>
 
 
@@ -98,5 +108,6 @@
                 </div>
             </div>
 
+            <cart v-bind:isvisiblecart="isVisibleCart" ref="cart"> </cart>
 
         </div>

@@ -1,4 +1,4 @@
-let dbCardUrl = "/cartController.php"
+let dbCardUrl = "/cart.php"
 
 /**
  * Возвращает содержимое корзины в виде массива item'ов
@@ -14,7 +14,7 @@ async function getDBCart() {
  * Сохраняет корзину в базу, старая корзина затирается 
  * @param {Array} cart 
  */
-function saveBDCart(cart) {
+async function saveBDCart(cart) {
     let result = await postJson(dbCardUrl, {
         action: "saveCart",
         cart: cart
@@ -26,7 +26,7 @@ function saveBDCart(cart) {
  * сливает корзину с корзиной, сохраненной в базе
  * @param {Array} cart 
  */
-function mergeToBDCart(cart) {
+async function mergeToBDCart(cart) {
     let result = await postJson(dbCardUrl, {
         action: "mergeCarts",
         cart: cart
@@ -38,10 +38,10 @@ function mergeToBDCart(cart) {
  * Добавляет товары в корзину. Количество товара изменяется на величину item.amount
  * @param {CartItem} item 
  */
-function addToDBCartItem(item) {
+async function addToDBCartItem(item) {
     let result = await postJson(dbCardUrl, {
         action: "addToCart",
-        cart: item
+        item: item
     })
     return result
 }
@@ -50,10 +50,10 @@ function addToDBCartItem(item) {
  * Заменяет позицию в козине, количество товара будет равно item.count
  * @param {CartItem} item 
  */
-function editDBCartItem(item) {
+async function editDBCartItem(item) {
     let result = await postJson(dbCardUrl, {
         action: "editCartItem",
-        cart: item
+        item: item
     })
     return result
 }

@@ -49,7 +49,10 @@ function insDelUpdRows(string $sql, array $params = []): int
         }
         call_user_func_array("mysqli_stmt_bind_param", $tmpParams);
     }
-    mysqli_stmt_execute($statement);
+    $wentFine = mysqli_stmt_execute($statement);
+    if (!$wentFine) {
+        throw new \Exception("Error in statement execute $sql");
+    }
     $affectedRows = mysqli_stmt_affected_rows($statement);
     mysqli_stmt_close($statement);
 

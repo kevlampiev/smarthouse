@@ -11,7 +11,11 @@ class CartItem {
 
 
 function getLocalCart() {
-    return JSON.parse(localStorage.getItem('cart'))
+    let result = JSON.parse(localStorage.getItem('cart'))
+    if (!result) {
+        result = []
+    }
+    return result
 }
 
 function saveLocalCart(cart) {
@@ -37,5 +41,23 @@ function addLocalCartItem(item) {
         cart = []
         cart.push(item)
     }
-    saveCart(cart)
+    saveLocalCart(cart)
+}
+
+
+function editLocalCartItem(item) {
+    let cart = getCart()
+    if (cart !== undefined) {
+        let cartEl = cart.find(el => el.id == item.id)
+        if (cartEl === undefined) {
+            cart.push(item)
+        } else {
+            cartEl.amount = item.amount
+        }
+    } else {
+        //если не было корзины - заводим
+        cart = []
+        cart.push(item)
+    }
+    saveLocalCart(cart)
 }

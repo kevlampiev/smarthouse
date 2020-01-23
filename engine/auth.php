@@ -3,6 +3,7 @@
 require_once __DIR__ . "/../settings/common.php";
 require_once __DIR__ . "/../engine/functions.php";
 require_once __DIR__ . "/../engine/dbhelpers.php";
+require_once __DIR__ . "/../engine/cartfunc.php";
 
 
 class User //Данные о пользователе
@@ -145,13 +146,14 @@ function logInUser(string $login, ?string $password, ?string $rememberMe): array
     }
 
     unset($rows[0]['password']);
+    $rows[0]['cart'] = getCart();
     return $rows[0];
 }
 
 /** 
  * Выкидывает user'а из системы и затирает его токен (если есть). LogOut делаем только на сервере
  */
-function logOutUser(string $login)
+function logOutUser(?string $login)
 {
     denyAccess();
     //надо бы удалить запись о конкретной сессии и почистить cookies
