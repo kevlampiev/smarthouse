@@ -46,11 +46,15 @@ let header = new Vue({
                 this.cart_count = result.cart_count
                 this.cart_summ = result.cart_summ
                 this.registered = true
-                //Сохраняем корзину
-                saveLocalCart(result.cart)
+                if (getLocalCart === []) {
+                    saveLocalCart(result.cart)
+                } else {
+                    mergeCarts()
+                }
                 this.$refs.cart.getData()
                 this.closeLoginWnd()
                 this.drawName()
+
 
             }
         },

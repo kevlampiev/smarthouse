@@ -63,3 +63,11 @@ function editCartItem(array $item): array
     );
     return ['status' => 'All went fine ... probably...'];
 }
+
+function mergeCarts(array $localCart): array
+{
+    foreach ($localCart as $item) {
+        addToCart($item);
+    }
+    return getCart();
+}

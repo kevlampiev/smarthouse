@@ -28,7 +28,7 @@ function destroyLocalCard() {
 }
 
 function addLocalCartItem(item) {
-    let cart = getCart()
+    let cart = getLocalCart()
     if (cart !== undefined) {
         let cartEl = cart.find(el => el.id == item.id)
         if (cartEl === undefined) {
@@ -46,7 +46,7 @@ function addLocalCartItem(item) {
 
 
 function editLocalCartItem(item) {
-    let cart = getCart()
+    let cart = getLocalCart()
     if (cart !== undefined) {
         let cartEl = cart.find(el => el.id == item.id)
         if (cartEl === undefined) {

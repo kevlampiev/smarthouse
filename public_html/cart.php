@@ -20,7 +20,7 @@ switch ($action) {
         echo json_encode($result);
         break;
     case 'mergeCarts':
-        $result = [];
+        $result = mergeCarts($item);
         echo json_encode($result);
         break;
     case 'addToCart':

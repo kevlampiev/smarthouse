@@ -36,7 +36,7 @@ async function addItemToCarts(id, name, img, price, currency) {
 
     if (registered !== undefined) {
         await addToDBCartItem(cartItem)
-        updateLocalCart()
+        await updateLocalCart()
     } else {
         addLocalCartItem(cartItem)
     }
@@ -57,8 +57,8 @@ async function editCartItem(item, newAmount) {
     let registered = getCookie('is_logged_in')
 
     if (registered !== undefined) {
-        editDBCartItem(item)
-        updateLocalCart()
+        await editDBCartItem(item)
+        await updateLocalCart()
     } else {
         editLocalCartItem(item)
     }
@@ -66,4 +66,15 @@ async function editCartItem(item, newAmount) {
         detail: { action: "item changed" }
     }))
 
+}
+
+async function mergeCarts() {
+    let cart = getLocalCart()
+    if (cart !== undefined) {
+        await mergeToBDCart(cart)
+        await updateLocalCart()
+        document.dispatchEvent(new CustomEvent("cartChanged", {
+            detail: { action: "carts merged" }
+        }))
+    }
 }

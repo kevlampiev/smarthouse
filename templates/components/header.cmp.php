@@ -61,7 +61,7 @@
 
                     </template>
                     <li> <a class="userMenu__letterItem" href="#" @click="isVisibleCart=!isVisibleCart">
-                            <i class="fas fa-shopping-basket"></i>
+                            <i class="fas fa-shopping-basket"> user cart</i>
                         </a>
                     </li>
                 </ul>

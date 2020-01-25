@@ -7,7 +7,9 @@
             <img src=<?= "\"/img/goods/" . $good['img'] . "\""; ?>>
             <h3> <?= $good['name']; ?> </h3>
             <p> <?= $good['price'] . " " . $good['currency']; ?> </p>
-            <button type="submit" class="buiItBtn orangeStyled">Buy it</button>
+            <button type="submit" class="buiItBtn orangeStyled" onclick="addItemToCarts(<?= $good['id'] . ',\'' . $good['name'] . '\',\'' . $good['img'] . '\',' . $good['price'] . ',\'' . $good['currency'] . '\'' ?> )">
+                Buy it
+            </button>
         </div>
     <? endforeach; ?>
 

@@ -6,6 +6,8 @@ require_once __DIR__ . "/../engine/dbhelpers.php";
 require_once __DIR__ . "/../engine/cartfunc.php";
 
 
+session_start();
+
 class User //Данные о пользователе
 {
     public $login;
@@ -63,8 +65,8 @@ function denyAccess()
  */
 function registerNewUser(User $usr): bool
 {
-    $sql = "INSERT INTO users (login, password,  name, phone, email, address, description, last_login) 
-          VALUES (?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO users (login, password,  name, phone, email, address, description) 
+          VALUES (?,?,?,?,?,?,?)";
     $usr->pass = password_hash($usr->pass, PASSWORD_DEFAULT);
     $params = array(
         $usr->login,
@@ -73,8 +75,7 @@ function registerNewUser(User $usr): bool
         $usr->phone,
         $usr->email,
         $usr->address,
-        $usr->description,
-        time()
+        $usr->description
     );
 
     if (insDelUpdRows($sql, $params) === 1) {

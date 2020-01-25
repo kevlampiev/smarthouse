@@ -62,9 +62,9 @@ let cart = {
          * @param {Good} good товар который доавляем
          * @param {Number} amount количество
          */
-        addToCart(good, amount = null) {
+        async addToCart(good, amount = null) {
             if (amount === null) { amount = 1 }
-            editCartItem(good, amount)
+            await editCartItem(good, amount)
         },
 
 
@@ -107,10 +107,8 @@ let cart = {
         this.getData()
         //setInterval(this.getData, 500)
         document.addEventListener('cartChanged', this.getData)
-    },
+        document.addEventListener('storage', this.getData)
 
-    beforeUpdate() {
-        //this.getData()
     },
 
     template: `<div class="basketWindow" v-if="isvisiblecart" ref="cart">
@@ -136,3 +134,4 @@ let cart = {
         'cart-item': cartItem
     }
 }
+
