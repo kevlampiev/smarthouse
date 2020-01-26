@@ -57,3 +57,13 @@ h3 {
   color: #fff;
   text-align: center;
 }
+.error_data {
+  color: maroon;
+  background-color: #f79f9f;
+}
+.error_notification_div {
+  width: 100px;
+  color: #fff;
+  background-color: red;
+  font-style: italic;
+}

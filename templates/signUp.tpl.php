@@ -15,7 +15,10 @@
 
             <form action="#" method="POST">
                 <label for="login">Login:</label>
-                <input type="text" name="login">
+                <input type="text" name="login" v-model="login">
+                <div class="error_notification_div">
+                    {{login}}
+                </div>
 
                 <label for="password">Password:</label>
                 <input type="password" name="password">
@@ -56,6 +59,7 @@
 
     <link rel="stylesheet" href="styles/mainStyle.css">
     <link rel="stylesheet" href="styles/signUp.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="js/signUp.js"></script>
 
 

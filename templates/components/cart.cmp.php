@@ -1,4 +1,4 @@
-<div class="cartItem">
+<!-- <div class="cartItem">
     <img class="cartItem__img" :src="img_url+cartItem.certImg" alt="Изображение">
     <p class="cartItem__name"> {{cartItem.title}} </p>
     <p class="cartItem__price"> {{cartItem.price.toFixed(2)}}</p>
@@ -14,4 +14,4 @@
     </button>
     <p class="cartItem__totalSum">
         {{(Number(cartItem.price)*Number(cartItem.quantity)).toFixed(2)}}</p>
-</div>
+</div> -->

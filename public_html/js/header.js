@@ -8,12 +8,14 @@ let header = new Vue({
         logInInProcess: false, //открывает диалоговае окно ввода пароля
         login: "",
         password: "",
-        rememberMe: true
+        rememberMe: true,
+        isVisibleCart: false
     },
     methods: {
 
         startLogin() {
             this.logInInProcess = true;
+
         },
         closeLoginWnd() {
             this.logInInProcess = false;
@@ -44,9 +46,21 @@ let header = new Vue({
                 this.cart_count = result.cart_count
                 this.cart_summ = result.cart_summ
                 this.registered = true
+                if (getLocalCart === []) {
+                    saveLocalCart(result.cart)
+                } else {
+                    mergeCarts()
+                }
+                this.$refs.cart.getData()
                 this.closeLoginWnd()
                 this.drawName()
+
+
             }
+        },
+        logOut() {
+            destroyLocalCard()
+            document.location.href = '/logout.php'
         },
         getData() {
             this.registered = (getCookie('is_logged_in') == 'true')
@@ -55,4 +69,7 @@ let header = new Vue({
     mounted() {
         this.getData()
     },
+    components: {
+        'cart': cart
+    }
 })
