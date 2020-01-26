@@ -6,7 +6,49 @@ let regForm = new Vue({
     pass2: "",
     name: "",
     phone: "",
-    email: ""
+    email: "",
+    loginEntered: false,
+    password1Entered: false,
+    password2Entered: false,
+    nameEntered: false,
+    phoneEntered: false,
+    emailEntered: false
+  },
+  computed: {
+    loginValid: function() {
+      let sample = /^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$/;
+      return this.login != "" || this.login.match(sample);
+    },
+    phoneValid: function() {
+      let sample = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
+      return this.phone.match(sample);
+    },
+    emailValid: function() {
+      let sample = /^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/;
+      return this.email.match(sample);
+    },
+    passwordsMatch: function() {
+      return this.pass1 == this.pass2;
+    }
+  },
+  methods: {
+    checkData: function() {
+      return (
+        this.loginValid &&
+        this.phoneValid &&
+        this.emailValid &&
+        this.passwordsMatch
+      );
+    },
+    allowSend: function() {
+      if (!this.checkData()) {
+        let errLst = document.querySelector(".errors-list");
+        errLst.innerHTML = "Pls correct errors before saving";
+        displayErrWndw();
+      } else {
+        document.forms.regform.submit();
+      }
+    }
   }
 });
 

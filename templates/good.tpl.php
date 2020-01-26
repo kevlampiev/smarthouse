@@ -12,7 +12,7 @@
             <h1 class="good_name"> <?= $good['name'] ?></h1>
             <p><?= $good['description'] ?></p>
             <p class="price_info"> <?= $good['price'] . " " . $good['currency']; ?> </p>
-            <button type="submit" class="buiItBtn orangeStyled">Buy it</button>
+            <button type="submit" class="buiItBtn orangeStyled" onclick="addItemToCarts(<?= $good['id'] . ',\'' . $good['name'] . '\',\'' . $good['img'] . '\',' . $good['price'] . ',\'' . $good['currency'] . '\'' ?> )">Buy it</button>
         </div>
     </div>
 
