@@ -1,7 +1,7 @@
 <div class="goods-list">
     <h2 class="grayTitle"> <?= $categoryName ?> </h2>
 
-    <? foreach ($goodsOfCategory as $key => $good) : ?>
+    <?php foreach ($goodsOfCategory as $key => $good) : ?>
         <div class="goods-item">
             <a href=<?= "good.php?id=" . $good['id']  ?>>
                 <img src=<?= "\"/img/goods/" . $good['img'] . "\""; ?>>
@@ -12,6 +12,6 @@
                 Buy it
             </button>
         </div>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 
 </div>

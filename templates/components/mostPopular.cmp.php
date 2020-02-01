@@ -1,7 +1,7 @@
 <div class="goods-list">
     <h2 class="grayTitle"> Most popular goods </h2>
 
-    <? foreach ($mostPopular as $key => $good) : ?>
+    <?php foreach ($mostPopular as $key => $good) : ?>
         <div class="goods-item">
 
             <img src=<?= "\"/img/goods/" . $good['img'] . "\""; ?>>
@@ -11,6 +11,6 @@
                 Buy it
             </button>
         </div>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 
 </div>

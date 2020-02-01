@@ -143,7 +143,7 @@ function logInUser(string $login, ?string $password, ?string $rememberMe): array
 
     if (isset($rememberMe)) {
         giveOutToken($login, null);
-        grantAccess($login);
+        grantAccess($login);       
     }
 
     unset($rows[0]['password']);
@@ -236,29 +236,29 @@ function registerToken(string $tokenSeria,  string $tokenNumber): bool
  */
 function giveOutToken(string $login, ?string $tokenSeria): bool
 {
-
-
-    if (is_null($tokenSeria)) {
+    if ($tokenSeria===null) {
         //серия не задана - делаем новую строку
         $tokenSeria = base64_encode(random_bytes(64));
         $tokenNumber = base64_encode(random_bytes(64));
-        $sql = "INSERT INTO user_tokens(login,token_seria,token_number) 
-                    VALUES (?,?,?)";
-        $rowsAffected = insDelUpdRows($sql, [$login, $tokenSeria, $tokenNumber]);
-        if ($rowsAffected === 0) {
-            return false;
-        }
+        
+
+        // $sql = "INSERT INTO user_tokens(login,token_seria,token_number) 
+        //             VALUES (?,?,?)";
+        // $rowsAffected = insDelUpdRows($sql, [$login, $tokenSeria, $tokenNumber]);
+        // if ($rowsAffected === 0) {
+        //     return false;
+        // }
     } else {
         //серия задана - делаем только новый номер
         $tokenNumber = base64_encode(random_bytes(64));
-        $sql = "UPDATE user_tokens 
-                SET token_number=?, last_login=SYSDATE()
-                WHERE login=? AND token_seria=?";
-        if (insDelUpdRows($sql, [$tokenNumber, $login, $tokenSeria]) === 0) {
-            return false;
-        }
-    }
-
+        
+        // $sql = "UPDATE user_tokens 
+        //         SET token_number=?, last_login=SYSDATE()
+        //         WHERE login=? AND token_seria=?";
+        // if (insDelUpdRows($sql, [$tokenNumber, $login, $tokenSeria]) === 0) {
+        //     return false;
+        // }
+    }    
     return registerToken($tokenSeria, $tokenNumber);
 }
 

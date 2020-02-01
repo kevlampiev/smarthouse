@@ -6,6 +6,7 @@
 -- Время создания: Янв 06 2020 г., 15:47
 -- Версия сервера: 10.3.13-MariaDB-log
 -- Версия PHP: 7.1.32
+USE smarthouse;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -26,7 +27,7 @@ DELIMITER $$
 --
 -- Процедуры
 --
-CREATE DEFINER=`root`@`%` PROCEDURE `add_to_cart` (`auser` VARCHAR(150), `agood_id` INT, `aamount` INT)  BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_to_cart` (`auser` VARCHAR(150), `agood_id` INT, `aamount` INT)  BEGIN 
 	DECLARE numrows INT; 
 	SELECT count(*) INTO numrows FROM cart WHERE user=auser AND good_id=agood_id; 
 	IF numrows=0 
@@ -444,7 +445,7 @@ CREATE TABLE `v_usr_cart_stats` (
 --
 DROP TABLE IF EXISTS `v_active_categories`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_active_categories`  AS  select distinct `v_available_goods`.`category_id` AS `id`,`v_available_goods`.`category` AS `name` from `v_available_goods` order by `v_available_goods`.`category_id` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_active_categories`  AS  select distinct `v_available_goods`.`category_id` AS `id`,`v_available_goods`.`category` AS `name` from `v_available_goods` order by `v_available_goods`.`category_id` ;
 
 -- --------------------------------------------------------
 
@@ -453,7 +454,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_activ
 --
 DROP TABLE IF EXISTS `v_available_goods`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_available_goods`  AS  select `g`.`id` AS `id`,`g`.`category_id` AS `category_id`,`g`.`name` AS `name`,`gc`.`name` AS `category`,`g`.`description` AS `description`,`p`.`price` AS `price`,`p`.`currency` AS `currency`,`g`.`img` AS `img` from ((`goods` `g` join `prices` `p` on(`g`.`id` = `p`.`good_id`)) join `good_categories` `gc` on(`g`.`category_id` = `gc`.`id`)) where `p`.`date_close` > current_timestamp() or `p`.`date_close` is null order by `gc`.`name`,`g`.`name` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_available_goods`  AS  select `g`.`id` AS `id`,`g`.`category_id` AS `category_id`,`g`.`name` AS `name`,`gc`.`name` AS `category`,`g`.`description` AS `description`,`p`.`price` AS `price`,`p`.`currency` AS `currency`,`g`.`img` AS `img` from ((`goods` `g` join `prices` `p` on(`g`.`id` = `p`.`good_id`)) join `good_categories` `gc` on(`g`.`category_id` = `gc`.`id`)) where `p`.`date_close` > current_timestamp() or `p`.`date_close` is null order by `gc`.`name`,`g`.`name` ;
 
 -- --------------------------------------------------------
 
@@ -462,7 +463,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_avail
 --
 DROP TABLE IF EXISTS `v_cart`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_cart`  AS  select `c`.`id` AS `id`,`c`.`user` AS `user`,`c`.`good_id` AS `good_id`,`c`.`amount` AS `amount`,`gs`.`name` AS `name`,`gs`.`price` AS `price`,`gs`.`currency` AS `currency`,`gs`.`img` AS `img` from (`cart` `c` join `v_available_goods` `gs` on(`gs`.`id` = `c`.`good_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_cart`  AS  select `c`.`id` AS `id`,`c`.`user` AS `user`,`c`.`good_id` AS `good_id`,`c`.`amount` AS `amount`,`gs`.`name` AS `name`,`gs`.`price` AS `price`,`gs`.`currency` AS `currency`,`gs`.`img` AS `img` from (`cart` `c` join `v_available_goods` `gs` on(`gs`.`id` = `c`.`good_id`)) ;
 
 -- --------------------------------------------------------
 
@@ -471,7 +472,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_cart`
 --
 DROP TABLE IF EXISTS `v_hot_offer`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_hot_offer`  AS  select `ag`.`id` AS `id`,`ag`.`name` AS `name`,`ag`.`category` AS `category`,`ag`.`description` AS `description`,`ag`.`price` AS `price`,`ag`.`currency` AS `currency`,`ag`.`img` AS `img` from (`v_available_goods` `ag` join `hot_offers` `ho` on(`ag`.`id` = `ho`.`good_id`)) where `ho`.`date_open` < current_timestamp() and (`ho`.`date_close` > current_timestamp() or `ho`.`date_close` is null) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_hot_offer`  AS  select `ag`.`id` AS `id`,`ag`.`name` AS `name`,`ag`.`category` AS `category`,`ag`.`description` AS `description`,`ag`.`price` AS `price`,`ag`.`currency` AS `currency`,`ag`.`img` AS `img` from (`v_available_goods` `ag` join `hot_offers` `ho` on(`ag`.`id` = `ho`.`good_id`)) where `ho`.`date_open` < current_timestamp() and (`ho`.`date_close` > current_timestamp() or `ho`.`date_close` is null) ;
 
 -- --------------------------------------------------------
 
@@ -480,7 +481,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_hot_o
 --
 DROP TABLE IF EXISTS `v_usr_cart_stats`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_usr_cart_stats`  AS  select `users`.`login` AS `login`,`users`.`password` AS `password`,`users`.`name` AS `name`,0 AS `cart_count`,0 AS `cart_summ` from `users` where !(`users`.`login` in (select distinct `cart`.`user` from `cart`)) union select `usr`.`login` AS `login`,`usr`.`password` AS `password`,`usr`.`name` AS `name`,sum(`c`.`amount`) AS `cart_count`,sum(`c`.`amount` * `c`.`price`) AS `SUM(c.amount*c.price)` from (`users` `usr` join `v_cart` `c`) where `c`.`user` = `usr`.`login` group by `usr`.`login`,`usr`.`password`,`usr`.`name` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_usr_cart_stats`  AS  select `users`.`login` AS `login`,`users`.`password` AS `password`,`users`.`name` AS `name`,0 AS `cart_count`,0 AS `cart_summ` from `users` where !(`users`.`login` in (select distinct `cart`.`user` from `cart`)) union select `usr`.`login` AS `login`,`usr`.`password` AS `password`,`usr`.`name` AS `name`,sum(`c`.`amount`) AS `cart_count`,sum(`c`.`amount` * `c`.`price`) AS `SUM(c.amount*c.price)` from (`users` `usr` join `v_cart` `c`) where `c`.`user` = `usr`.`login` group by `usr`.`login`,`usr`.`password`,`usr`.`name` ;
 
 --
 -- Индексы сохранённых таблиц
