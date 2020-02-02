@@ -52,7 +52,7 @@
 
                 <div class="button_cont">
                     <input type="button" value="Save" @click="allowSend()">
-                    <input type="reset" value="Reset">
+                    <input type="reset" value="Reset" @click="quitPage()">
                 </div>
 
             </form>

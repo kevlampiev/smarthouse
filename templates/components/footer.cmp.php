@@ -61,6 +61,13 @@
     </div>
 
 </div>
+
+<div class="buy-notification hidden-form">
+    <div>
+        <p>The good is added to you cart</p>
+    </div>
+
+</div>
 <!-- 
 <div class="login-form cyanStyled hidden-form">
     <div>

@@ -6,6 +6,16 @@
 //Task. Переделать на получение json-строки как сказано  в https://stackoverflow.com/questions/21602381/passing-php-string-of-json-with-qoutes-to-onclick-function
 
 
+function notifyAddItem() {
+    let notifyForm=document.querySelector('.buy-notification')
+    notifyForm.classList.remove('hidden-form')
+    notifyForm.classList.add('zoomIn')
+    setTimeout(()=>{
+        notifyForm.classList.remove('zoomIn')
+        notifyForm.classList.add('hidden-form')
+    },550)
+}
+
 /**
  * Обновляет корзину в localStore из базы
  */
@@ -41,6 +51,7 @@ async function addItemToCarts(id, name, img, price, currency) {
         addLocalCartItem(cartItem)
     }
 
+    notifyAddItem()
     document.dispatchEvent(new CustomEvent("cartChanged", {
         detail: { action: "item added" }
     }))

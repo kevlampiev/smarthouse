@@ -48,6 +48,9 @@ let regForm = new Vue({
       } else {
         document.forms.regform.submit();
       }
+    },
+    quitPage() {
+      document.location.href = "/index.php"
     }
   }
 });
