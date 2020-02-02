@@ -1,0 +1,17 @@
+.userAccount {
+    display: flex;
+    justify-content: center;
+}
+
+.userAccPanel {
+    padding: 15px;
+    max-width: 500px;
+}
+
+.user_card {
+    width: 150px;
+    height: 150px;
+    float: left;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
