@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Янв 06 2020 г., 15:47
+-- Время создания: Янв 29 2020 г., 10:08
 -- Версия сервера: 10.3.13-MariaDB-log
 -- Версия PHP: 7.1.32
 USE smarthouse;
@@ -38,6 +38,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_to_cart` (`auser` VARCHAR(150),
 		END IF; 
 END$$
 
+CREATE DEFINER=`root`@`%` PROCEDURE `edit_cart_item` (IN `auser` VARCHAR(255), IN `agood_id` INT, IN `aamount` INT)  BEGIN 
+	DECLARE numrows INT; 
+	SELECT count(*) INTO numrows FROM cart WHERE user=auser AND good_id=agood_id; 
+	IF numrows=0 
+		THEN 
+			INSERT INTO cart (user, good_id, amount) VALUES (auser, agood_id, GREATEST(0,aamount)); 
+		ELSE 
+			UPDATE cart SET amount= GREATEST(0,aamount) WHERE user=auser AND good_id=agood_id; 
+		END IF; 
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -60,11 +71,17 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `user`, `date_open`, `good_id`, `amount`, `order_id`) VALUES
-(1, 'kevlampiev', '2019-12-23 08:30:01', 4, 1, NULL),
-(2, 'kevlampiev', '2019-12-23 08:30:20', 2, 5, NULL),
-(3, 'kevlampiev', '2019-12-23 08:39:08', 3, 2, NULL),
-(4, 'kevlampiev', '2019-12-23 09:33:45', 1, 2, NULL),
-(5, 'alexa', '2019-12-25 03:54:38', 1, 0, NULL);
+(6, 'test3', '2020-01-22 05:26:26', 1, 3, NULL),
+(7, 'test3', '2020-01-22 05:43:19', 3, 1, NULL),
+(8, 'test3', '2020-01-22 06:35:30', 2, 2, NULL),
+(9, 'test3', '2020-01-22 08:34:48', 4, 1, NULL),
+(10, 'test4', '2020-01-22 09:44:54', 3, 3, NULL),
+(11, 'test4', '2020-01-22 09:50:30', 2, 2, NULL),
+(12, 'test4', '2020-01-22 09:50:54', 4, 7, NULL),
+(13, 'test4', '2020-01-22 09:51:14', 1, 3, NULL),
+(14, 'test10', '2020-01-25 16:36:15', 3, 1, NULL),
+(15, 'test10', '2020-01-25 16:36:45', 1, 1, NULL),
+(16, 'test11', '2020-01-25 16:53:40', 2, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -83,6 +100,7 @@ CREATE TABLE `currencies` (
 
 INSERT INTO `currencies` (`currency`, `full_name`) VALUES
 ('EUR', 'Euro'),
+('RUB', NULL),
 ('RUR', 'RUSSIAN RUBLE'),
 ('USD', 'US Dollar');
 
@@ -179,6 +197,7 @@ CREATE TABLE `good_categories` (
 
 INSERT INTO `good_categories` (`id`, `name`) VALUES
 (9, 'controllers'),
+(12, 'kill me'),
 (4, 'kits'),
 (2, 'power supply'),
 (3, 'security'),
@@ -343,7 +362,7 @@ CREATE TABLE `users` (
   `address` text DEFAULT NULL,
   `description` text DEFAULT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
-  `last_login` timestamp NULL DEFAULT NULL
+  `last_login` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -361,7 +380,44 @@ INSERT INTO `users` (`login`, `password`, `name`, `phone`, `email`, `address`, `
 ('leshiy', '783ac6567dd010e56986a40d8a6695c36542bb53b48qf', 'Alex Fitness', '89632883655', 'kevlampiev@gmail.com', '', '', '2020-01-03 11:20:29', NULL),
 ('Maxim', '783ac6533fd8226b5c19530fa30444978894f113b48qf', 'Максим Евлампиев', '', 'm.evlampiev@gmail.com', '', '', '2020-01-05 12:10:59', NULL),
 ('sho', '783ac65cf57c97b62b5eda9144cc631dfa38eb63b48qf', 'Sho Gi Bop', '89632883655', 'sho@mail.ru', '', '', '2020-01-03 11:22:51', NULL),
-('test', '783ac65098f6bcd4621d373cade4e832627b4f63b48qf', 'Test Test', '', 'test@gmail.com', '', '', '2020-01-05 14:36:49', NULL);
+('Soso', '$2y$10$xxMRcurs1xEedaOSVbfRf.TnfsnlxoHMn9PTp7ZxnZ98z6QF/wTrm', 'Константин Евлампиев', '+7(963)2883655', 'kevlampiev@gmail.com', 'Бирюлевская ул, д.53/1', '', '2020-01-26 07:26:07', '2020-01-26 07:26:07'),
+('test', '783ac65098f6bcd4621d373cade4e832627b4f63b48qf', 'Test Test', '', 'test@gmail.com', '', '', '2020-01-05 14:36:49', NULL),
+('test10', '$2y$10$LBIkzCtd1TjDtz2sJP3Nq.1bk6hLptjKK2EEKERgEr/M1nd8K9Zue', 'test10 10 10 Yeah!!!', '322-223`', 'hook', 'dom 15 korp. 2 kv.424\r\nulitsa Gurievsky proezd', '', '2020-01-25 16:35:25', NULL),
+('test11', '$2y$10$RmWjMBFJVxIY9HUYuuCpQu9vr2qBuuVRh1ng4HqFUXQwVsz2nw4.C', 'ye', '6655511', 'ee', 'qq', '', '2020-01-25 16:39:15', '2020-01-25 16:39:15'),
+('test12', '$2y$10$6e6wKDU9xtPXWhPKapnVCeqz54JekUM1hcuvcOtZT5xr9b7T4/l9O', '12 warrior', '111', '11', '', '', '2020-01-25 16:44:44', '2020-01-25 16:44:44'),
+('test2', '$2y$10$W9TSA4MO4ZflSr/OQ9rs7u1hDDWwn9HgH0x7i03.dc4GC4342sMmi', 'Test2', 'Test2', 'test2@hotmail.com', '', '', '2020-01-06 18:36:41', NULL),
+('test3', '$2y$10$fR18VOzrlj/5cieGy2Q3ZeAhN.wWMRB7yL85.l0TD74cC9Ybaep6C', 'еуые3333', '', 'tttttt', '', '', '2020-01-06 18:51:48', NULL),
+('test4', '$2y$10$nq8MULS3GnXhU58igSlWyuGt3mNTPB6fXId8jGGwtOHMMJkA4LoVW', 'test4 4 4', '', 'test4', '', '', '2020-01-06 18:56:12', NULL),
+('test5', '$2y$10$l0lnjBQY9.Uzpqv6mYgYU.2sQKtgKeBQ0hrDTvp3gCjEyHtBpb/B.', 'test5', '', 'test5', '', '', '2020-01-07 03:31:06', NULL),
+('test66', '$2y$10$Z8uGAeJwtUsDEJSJ000ofOBqnU48j4Wl3u.biq2migFYTaK4IeIRu', 'Tester from hell', '+7(911)9110911', '911@hell.com', '', '', '2020-01-26 12:58:39', '2020-01-26 12:58:39'),
+('test71', '$2y$10$o8n.bor0w4HlF92byiZLIuH9a8BfTIf6AU9a1bynV5Y29iRuoICvm', '1Tool', '+7(988)8882211', '888@help.sos', '', '', '2020-01-26 13:08:31', '2020-01-26 13:08:31'),
+('test77', '$2y$10$cQOpR1ZdfbTEcecGQrBHweUibxrEgk3ON5uRPMvWmE3/BWVcu2/im', 'Heaven sent', '+7(911)0911911', '911@heaven.com', '', '', '2020-01-26 13:00:29', '2020-01-26 13:00:29');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `user_tokens`
+--
+
+CREATE TABLE `user_tokens` (
+  `id` int(11) NOT NULL,
+  `login` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `token_seria` varchar(120) CHARACTER SET utf8 NOT NULL,
+  `token_number` varchar(120) CHARACTER SET utf8 NOT NULL,
+  `last_login` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Таблица токенов для режима remember me';
+
+--
+-- Дамп данных таблицы `user_tokens`
+--
+
+INSERT INTO `user_tokens` (`id`, `login`, `token_seria`, `token_number`, `last_login`) VALUES
+(28, 'test4', 'MfHokAm+pRfHQTHFeFjxELigjbgETZyDPGUZouSaiN7h/QgKlAU7ULx99PAefijSLkaRLixAMLSzNm4ov/XiUA==', '2oMkkB+mqe+FgmAjoVdRp1kwy1uxbx4GumjPdFJElgxi9Csx0CZ5hEXiAWis9GaaEo9p1wuvKREZIBPRfeA4pA==', '2020-01-11 14:38:34'),
+(37, 'test2', 'E85JE2XNrYuZ/Cwv0KPl7Se4FogkYnnlASdxysSdLcdJQoP+FdlXmsySUYzbMyFtr1SxQ7brJlz9P0YbaaRu0Q==', '2cm8TwK1fXi4370MZrgP8Cdzq5hG19l4Lx1zrRCb2wza83nJheBL+2tyHP/dh4/GSg2Bm+Uk3DzYjw2iIeJDcQ==', '2020-01-12 14:39:49'),
+(44, 'test5', 'ZK7Rj094vo5slSgx2cWR4OQIxwWkmqQC5n7Bz0kRhA2yOEjt5PTPdxVUjUdy8Yed5jrIHH86FLGdikPaLfJTqQ==', 'Tz2C3bkpI9vTgp8RVgS190jsS0FM3hBiYZPUVZdlx1IGYA2JyUGn5e+DQMEDclXjHoylv50bZ1tZ0AWm8HOXRg==', '2020-01-12 18:38:25'),
+(72, 'test3', 'o4Tuvqyp3Ckt+qlmTbZC6n57Fj/PqL3rGx+Jbc32Wb3eh84k4s1ghPvG6HxA4a5AOq0ImomKzrTu2sBugbHxDA==', 'vpuVTM0jo9VnhHJXMKGlzwKp7K7FSd64j8Yrgf0tz9kn4J8h350eriS4GpWlMH0NKmKWra2aB5/78iQw6LpDtQ==', '2020-01-16 15:58:59'),
+(93, 'test4', '6zR3FMCzidpHENrF+SRFlTWuWqaZjTA0JOJnEnF8XXT/3DSbQyQjf6cPNZEVc1r8NMBd3krtpIX8qelSU3Mq3g==', 'PsJEXEenQD5ogXGksI25oj4LkgpOn9VleRBoeVEYBUkgXugH27aHJS2/zi8g0OcGpLcGXr8DWFFkzETJ+2Enqg==', '2020-01-17 11:49:09'),
+(126, 'test3', 'lABMU+mEBQpN7PIUyJ72k8zyeszGJbMuSXnUkLFaYH9D6aBbLCnDZf6r7kEbdowGHqzp8Gkq2zbzX4gb93oWhg==', 'ezMYW5VgHb95sN17Ub8RM0SPdCRjeFViamLpVSO48bmvo56oys9qjuMHu9b16Gs+/5JwucnmVyD/ut1gR+grOw==', '2020-01-26 13:32:42');
 
 -- --------------------------------------------------------
 
@@ -492,6 +548,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_2` (`user`,`good_id`),
   ADD KEY `good_id` (`good_id`),
   ADD KEY `user` (`user`),
   ADD KEY `order_id` (`order_id`);
@@ -589,6 +646,13 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email_idx` (`login`);
 
 --
+-- Индексы таблицы `user_tokens`
+--
+ALTER TABLE `user_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `login` (`login`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -596,7 +660,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT для таблицы `delivery_types`
@@ -620,7 +684,7 @@ ALTER TABLE `goods`
 -- AUTO_INCREMENT для таблицы `good_categories`
 --
 ALTER TABLE `good_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT для таблицы `hot_offers`
@@ -657,6 +721,12 @@ ALTER TABLE `prices`
 --
 ALTER TABLE `slider_info`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT для таблицы `user_tokens`
+--
+ALTER TABLE `user_tokens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -701,6 +771,12 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `prices`
   ADD CONSTRAINT `prices_ibfk_1` FOREIGN KEY (`currency`) REFERENCES `currencies` (`currency`);
+
+--
+-- Ограничения внешнего ключа таблицы `user_tokens`
+--
+ALTER TABLE `user_tokens`
+  ADD CONSTRAINT `user_tokens_ibfk_1` FOREIGN KEY (`login`) REFERENCES `users` (`login`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
