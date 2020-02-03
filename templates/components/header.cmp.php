@@ -43,9 +43,9 @@
 
 
                 <ul class="userMenu">
-                    <li v-if="registered"> <a class="userMenu__item" href="#">wish list</a></li>
+                    <li> <a class="userMenu__item" href="/index.php">home</a></li>
                     <li v-if="registered"><a class="userMenu__item" href="/userAccount.php">my account</a></li>
-                    <li v-if="registered"><a class="userMenu__item" href="#">checkout</a></li>
+                    <li v-if="registered"><a class="userMenu__item" href="#">wish list</a></li>
 
                     <li v-if="registered"><a class="userMenu__item" href="#" @click="logOut()">log out</a></li>
                     <template v-else>
