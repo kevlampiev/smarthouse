@@ -290,3 +290,20 @@ function autoLogin(): bool
     //пусть grantAccess будет таким grantAccess($login, $name);
     return grantAccess($login);
 }
+
+
+/* ------------------------------------------------------------------------------------------------------------------
+-------------------------------------- РЕДАКТИРОВАНИЕ ОТДЕЛЬНЫХ ПОЛЕЙ ЗАПИСИ О ПОЛЬЗОВАТЕЛЕ -------------------------
+--------------------------------------------------------------------------------------------------------------------*/
+
+function editUserField(string $fieldName, string $fieldValue):array 
+{
+    if (!isset($_SESSION['login'])) {
+        return ["error"=>"user is not autorized"];
+    }
+    $sql="UPDATE user SET "."$fieldName"."=? WHERE login=?";
+    if (insDelUpdRows($sql,[$fieldValue,$_SESSION['login']])===1) {
+        return ["status"=>"success"];
+    }
+    return ["error"=>"smth went wrong"];
+}

@@ -66,7 +66,7 @@
         </p>
     </div>
 
-    <div class="fieldEditForm" data-fieldName="noname">
+    <div class="fieldEditForm hidden-form" data-fieldName="noname">
 
         <div>
 
