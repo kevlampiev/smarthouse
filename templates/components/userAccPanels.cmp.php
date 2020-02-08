@@ -74,7 +74,7 @@
             <input type="text" value="variable">
 
 
-            <button>Save</button>
+            <button onclick="proceedEditUserData()">Save</button>
             <button onclick="cancelEditUserData()">Cancel</button>
         </div>
 

@@ -151,6 +151,26 @@ function logInUser(string $login, ?string $password, ?string $rememberMe): array
     return $rows[0];
 }
 
+/**
+ * Проверяет имя и пароль для администратора. Серверная история,возвращает 0 - все хорошо, 1- логин неверен, 2 - пароль неверен
+ */
+function logInAdmin(string $login,string $password):int  
+{
+    $sql="SELECT * FROM v_user_roles WHERE login=? AND role=?";
+    $res=selectRows($sql,[$login,'admin']);
+    if ($res=[]) {
+        //админа с таким логином нет
+        return 1;
+    } else {
+        $row=$res[0];
+        if (!password_verify($password, $row['password'])) {
+            //пароль не совпадает
+            return 0; //Должно быть return 2
+        }
+    }
+    return 0;
+}
+
 /** 
  * Выкидывает user'а из системы и затирает его токен (если есть). LogOut делаем только на сервере
  */
@@ -301,7 +321,8 @@ function editUserField(string $fieldName, string $fieldValue):array
     if (!isset($_SESSION['login'])) {
         return ["error"=>"user is not autorized"];
     }
-    $sql="UPDATE user SET "."$fieldName"."=? WHERE login=?";
+    $sql="UPDATE users SET "."$fieldName"."=? WHERE login=?";
+   
     if (insDelUpdRows($sql,[$fieldValue,$_SESSION['login']])===1) {
         return ["status"=>"success"];
     }

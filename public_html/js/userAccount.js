@@ -1,9 +1,10 @@
-function startEditUserData(fieldName, title) {
-  let wnd = document.querySelector(".fieldEditForm");
-  let editInp = wnd.querySelector("input");
-  let mainLabel = wnd.querySelector("h4");
-  mainLabel.innerHTML = title;
+let wnd = document.querySelector(".fieldEditForm");
+let editInp = wnd.querySelector("input");
+let mainLabel = wnd.querySelector("h4");
 
+
+function startEditUserData(fieldName, title) {
+  mainLabel.innerHTML = title;
   let oldValue = document.querySelector("#" + fieldName + " .fieldBlock__data")
     .innerHTML;
   wnd.setAttribute("data-fieldName", fieldName);
@@ -12,17 +13,12 @@ function startEditUserData(fieldName, title) {
 }
 
 function cancelEditUserData() {
-  let wnd = document.querySelector(".fieldEditForm");
   wnd.classList.add("hidden-form");
 }
 
-
-function proceedEditUserData() {
-  let wnd = document.querySelector(".fieldEditForm");
-  let editInp = wnd.querySelector("input");
-
+async function proceedEditUserData() {
   let newValue = editInp.value;
-
+  let fieldName=wnd.getAttribute('data-fieldName')
   let result= await postJson('editUserInfo.php',{
     action: 'editUserInfo',
     fieldName: fieldName,
@@ -33,8 +29,12 @@ function proceedEditUserData() {
     document.querySelector("#" + fieldName + " .fieldBlock__data")
     .innerHTML=newValue
   } 
-
   wnd.classList.remove('hidden-form')
-
-
 }
+
+
+document.addEventListener('load',()=> {
+    wnd = document.querySelector(".fieldEditForm");
+    editInp = wnd.querySelector("input");
+    mainLabel = wnd.querySelector("h4");    
+})
