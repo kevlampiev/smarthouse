@@ -23,7 +23,10 @@ require_once __DIR__ . '/../templates/components/adminPanelHeader.cmp.php' ?>
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
       
         <!-- Редактирование основной информации о товаре -->
-        <form method="POST" action="adminEditGoodPost.php">
+        <form method="POST" action="adminEditGoodPost.php" enctype="multipart/form-data">
+            <div class="form-group hidden">
+              <input type="text" class="form-control hidden" name="action" value="edit">
+            </div>
             <div class="form-group">
               <label for="nameInput">Name</label>
               <input type="text" class="form-control" id="nameInput" name="goodname" value="<?=$good['name']?>">

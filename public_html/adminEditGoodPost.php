@@ -8,7 +8,7 @@ session_start();
 if (!isset($_POST['goodname'])) {
     echo "name is not set";
 } else {
-    echo "name is $_POST['goodname']";
+    echo "name is {$_POST['goodname']}";
 };
 
 
