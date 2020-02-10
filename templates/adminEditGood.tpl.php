@@ -26,11 +26,11 @@ require_once __DIR__ . '/../templates/components/adminPanelHeader.cmp.php' ?>
         <form method="POST" action="adminEditGoodPost.php">
             <div class="form-group">
               <label for="nameInput">Name</label>
-              <input type="text" class="form-control" id="name" value="<?=$good['name']?>">
+              <input type="text" class="form-control" id="nameInput" name="goodname" value="<?=$good['name']?>">
             </div>
             <div class="form-group">
               <label for="categorySelect">Category</label>
-              <select class="form-control" id="categorySelect" value="<?=$good['category']?>">
+              <select class="form-control" id="categorySelect" name="category" value="<?=$good['category']?>">
                 <?php foreach($categories as $key=>$category) :?>
                   <option><?=$category['name']?></option>
                 <?php endforeach;?>  
@@ -38,8 +38,8 @@ require_once __DIR__ . '/../templates/components/adminPanelHeader.cmp.php' ?>
             </div>
 
             <div class="form-group">
-              <label for="exampleFormControlTextarea1">Description</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"> <?=$good['description']?></textarea>
+              <label for="Description">Description</label>
+              <textarea class="form-control" name="Description" id="Description" rows="3"> <?=$good['description']?></textarea>
             </div>
 
             <div class="form-group">
