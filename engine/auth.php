@@ -158,17 +158,19 @@ function logInAdmin(string $login,string $password):int
 {
     $sql="SELECT * FROM v_user_roles WHERE login=? AND role=?";
     $res=selectRows($sql,[$login,'admin']);
-    if ($res=[]) {
+
+    if ($res==[]) {
         //админа с таким логином нет
         return 1;
     } else {
         $row=$res[0];
         if (!password_verify($password, $row['password'])) {
             //пароль не совпадает
-            return 0; //Должно быть return 2
+            return 2; //Должно быть return 2
         }
+        return 0;
     }
-    return 0;
+    
 }
 
 /** 

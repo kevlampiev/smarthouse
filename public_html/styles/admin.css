@@ -8,3 +8,8 @@
     transform: translate(-50%, -50%);
     box-shadow: 8px 8px 19px 5px rgba(0, 0, 0, 0.43);
 }
+
+.small-picture {
+    width: 75px;
+    height: 75px;
+}

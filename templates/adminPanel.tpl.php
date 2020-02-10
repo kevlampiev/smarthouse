@@ -1,61 +1,55 @@
 <?php 
 
 session_start();
-
- 
 require_once __DIR__ . '/../templates/components/adminPanelHeader.cmp.php' ?>
+
+
 <div class="container-fluid">
   <div class="row">
   
-    <div class="col-4">
-        <h4>Categories</h4>
+    <div class="col-12">
+        <h4>goods</h4>
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-secondary">Add</button>
+            <button type="button" class="btn btn-secondary">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            Add
+            </button>
         </div>
         <div>
         <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Имя</th>
-      <th scope="col">Фамилия</th>
-      <th scope="col">Username</th>
+    <th scope="col">Photo</th>
+      <th scope="col">Name</th>
+      <th scope="col">Category</th>
+      <th scope="col">Description</th>
+      <th scope="col">--</th>
     </tr>
   </thead>
   <tbody>
+  <?php foreach($goods as $key=>$good): ?>
     <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+      <td>
+        <img src="../img/goods/<?= $good['img']?>" alt="good image" class="small-picture">
+      </td>
+      <td><?= $good['name']?></td>
+      <td><?= $good['category']?></td>
+      <td><?= $good['description']?></td>
+      <td> <a href="/adminEditGood.php?id=<?=$good['id']?>">
+      <i class="fa fa-pencil" aria-hidden="true"></i>
+      </a>
+      <a href="/adminDeleteGood.php?id=<?=$good['id']?>">
+      <i class="fa fa-trash" aria-hidden="true"></i>
+      </a>
+      </td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
+  <?php endforeach; ?>
   </tbody>
 </table>
         </div>
     </div>
     
-    <div class="col-8">
-    <h4>Goods of category   </h4>
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-secondary">Add</button>
-        </div>
-        <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, maiores deserunt amet ut nihil adipisci, eligendi odio maxime eos cupiditate iusto? Esse, eum! Eveniet quasi tempora sed impedit fugit ea cumque accusamus ducimus laboriosam ipsum beatae, nisi cupiditate obcaecati corporis repudiandae minima saepe delectus mollitia ratione harum praesentium quisquam! Minus.
-        </div>
-    </div>
-  
+
   </div>
 
 </div>
