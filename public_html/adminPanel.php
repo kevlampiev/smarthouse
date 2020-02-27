@@ -10,4 +10,4 @@ if (!isset($_SESSION['admin_login'])) {
 }
 
 
-echo render('adminPanel.tpl',['docTitle'=>"Smarthouse AdminPanel","goods"=>getGoodsList()]);
+echo render('adminPanel.tpl', ['docTitle' => "Smarthouse AdminPanel", "goods" => getGoodsList()]);

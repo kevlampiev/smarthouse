@@ -143,7 +143,7 @@ function logInUser(string $login, ?string $password, ?string $rememberMe): array
 
     if (isset($rememberMe)) {
         giveOutToken($login, null);
-        grantAccess($login);       
+        grantAccess($login);
     }
 
     unset($rows[0]['password']);
@@ -154,23 +154,22 @@ function logInUser(string $login, ?string $password, ?string $rememberMe): array
 /**
  * Проверяет имя и пароль для администратора. Серверная история,возвращает 0 - все хорошо, 1- логин неверен, 2 - пароль неверен
  */
-function logInAdmin(string $login,string $password):int  
+function logInAdmin(string $login, string $password): int
 {
-    $sql="SELECT * FROM v_user_roles WHERE login=? AND role=?";
-    $res=selectRows($sql,[$login,'admin']);
+    $sql = "SELECT * FROM v_user_roles WHERE login=? AND role=?";
+    $res = selectRows($sql, [$login, 'admin']);
 
-    if ($res==[]) {
+    if ($res == []) {
         //админа с таким логином нет
         return 1;
     } else {
-        $row=$res[0];
+        $row = $res[0];
         if (!password_verify($password, $row['password'])) {
             //пароль не совпадает
             return 2; //Должно быть return 2
         }
         return 0;
     }
-    
 }
 
 /** 
@@ -258,11 +257,11 @@ function registerToken(string $tokenSeria,  string $tokenNumber): bool
  */
 function giveOutToken(string $login, ?string $tokenSeria): bool
 {
-    if ($tokenSeria===null) {
+    if ($tokenSeria === null) {
         //серия не задана - делаем новую строку
         $tokenSeria = base64_encode(random_bytes(64));
         $tokenNumber = base64_encode(random_bytes(64));
-        
+
 
         // $sql = "INSERT INTO user_tokens(login,token_seria,token_number) 
         //             VALUES (?,?,?)";
@@ -273,14 +272,14 @@ function giveOutToken(string $login, ?string $tokenSeria): bool
     } else {
         //серия задана - делаем только новый номер
         $tokenNumber = base64_encode(random_bytes(64));
-        
+
         // $sql = "UPDATE user_tokens 
         //         SET token_number=?, last_login=SYSDATE()
         //         WHERE login=? AND token_seria=?";
         // if (insDelUpdRows($sql, [$tokenNumber, $login, $tokenSeria]) === 0) {
         //     return false;
         // }
-    }    
+    }
     return registerToken($tokenSeria, $tokenNumber);
 }
 
@@ -318,15 +317,15 @@ function autoLogin(): bool
 -------------------------------------- РЕДАКТИРОВАНИЕ ОТДЕЛЬНЫХ ПОЛЕЙ ЗАПИСИ О ПОЛЬЗОВАТЕЛЕ -------------------------
 --------------------------------------------------------------------------------------------------------------------*/
 
-function editUserField(string $fieldName, string $fieldValue):array 
+function editUserField(string $fieldName, string $fieldValue): array
 {
     if (!isset($_SESSION['login'])) {
-        return ["error"=>"user is not autorized"];
+        return ["error" => "user is not autorized"];
     }
-    $sql="UPDATE users SET "."$fieldName"."=? WHERE login=?";
-   
-    if (insDelUpdRows($sql,[$fieldValue,$_SESSION['login']])===1) {
-        return ["status"=>"success"];
+    $sql = "UPDATE users SET " . "$fieldName" . "=? WHERE login=?";
+
+    if (insDelUpdRows($sql, [$fieldValue, $_SESSION['login']]) === 1) {
+        return ["status" => "success"];
     }
-    return ["error"=>"smth went wrong"];
+    return ["error" => "smth went wrong"];
 }

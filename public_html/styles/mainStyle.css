@@ -381,8 +381,10 @@ h2 {
   left: 24vw;
   width: 50vw;
   padding: 10px;
-  background-color: #fff;
-  color: #333;
+  background-color: #facc24;
+  font-size: 16px;
+  color: #7d7253;
+  line-height: 1.5;
   box-shadow: 8px 8px 19px 5px rgba(0, 0, 0, 0.43);
   opacity: 0.9;
   z-index: 17;
@@ -416,8 +418,8 @@ h2 {
 .zoomIn {
   -webkit-animation-name: zoomIn;
   animation-name: zoomIn;
-  -webkit-animation-duration: 0.7s;
-  animation-duration: 0.7s;
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
@@ -499,4 +501,38 @@ h2 {
   padding: 5px 15px;
   margin: 0 15px;
   border-radius: 10px;
+}
+.pagination {
+  margin: 15px auto;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+.pagination li {
+  display: inline-block;
+  margin: 0 5px;
+  padding-top: 3px;
+  height: 20px;
+  min-width: 20px;
+  text-align: center;
+  background-color: #ddd;
+  text-decoration: none;
+  border-radius: 10px;
+}
+.pagination li:first-child,
+.pagination li:last-child {
+  width: 80px;
+}
+.pagination li a {
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+.pagination li:hover {
+  background-color: black;
+  color: white;
+}
+.currentPage {
+  background-color: orangered !important;
+  color: #fff;
 }

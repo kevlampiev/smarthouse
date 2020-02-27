@@ -8,7 +8,7 @@
 
 </div>
 
-
+<script defer src="js/goods_nav.js"> </script>
 <?php require("../templates/components/footer.cmp.php"); ?>
 
 

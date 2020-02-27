@@ -10,7 +10,3 @@ if (!isset($_POST['goodname'])) {
 } else {
     echo "name is {$_POST['goodname']}";
 };
-
-
-
-?>

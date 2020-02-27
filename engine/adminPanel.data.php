@@ -15,5 +15,3 @@ function getCategories() {
     $sql="SELECT * FROM good_categories";
     return selectRows($sql,[]);
 };
-
-?>
